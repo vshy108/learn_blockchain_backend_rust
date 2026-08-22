@@ -1,0 +1,34 @@
+[package]
+name = "bitcoin"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "utxo"
+path = "src/01_utxo.rs"
+
+[[bin]]
+name = "input_output"
+path = "src/02_input_output.rs"
+
+[[bin]]
+name = "change"
+path = "src/03_change.rs"
+
+[[bin]]
+name = "fee_calculation"
+path = "src/04_fee_calculation.rs"
+
+[[bin]]
+name = "tx_construction"
+path = "src/05_tx_construction.rs"
+
+[[bin]]
+name = "tx_broadcast"
+path = "src/06_tx_broadcast.rs"

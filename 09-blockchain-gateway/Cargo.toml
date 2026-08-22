@@ -1,0 +1,34 @@
+[package]
+name = "blockchain_gateway"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "blockchain_trait"
+path = "src/01_blockchain_trait.rs"
+
+[[bin]]
+name = "bitcoin_adapter"
+path = "src/02_bitcoin_adapter.rs"
+
+[[bin]]
+name = "evm_adapter"
+path = "src/03_evm_adapter.rs"
+
+[[bin]]
+name = "solana_adapter"
+path = "src/04_solana_adapter.rs"
+
+[[bin]]
+name = "routing"
+path = "src/05_routing.rs"
+
+[[bin]]
+name = "gateway"
+path = "src/06_gateway.rs"

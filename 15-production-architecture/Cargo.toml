@@ -1,0 +1,34 @@
+[package]
+name = "production_architecture"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "ha_design"
+path = "src/01_ha_design.rs"
+
+[[bin]]
+name = "rpc_pool"
+path = "src/02_rpc_pool.rs"
+
+[[bin]]
+name = "failover"
+path = "src/03_failover.rs"
+
+[[bin]]
+name = "nonce_manager"
+path = "src/04_nonce_manager.rs"
+
+[[bin]]
+name = "circuit_breaker"
+path = "src/05_circuit_breaker.rs"
+
+[[bin]]
+name = "monitoring"
+path = "src/06_monitoring.rs"

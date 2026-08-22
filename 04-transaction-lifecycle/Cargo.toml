@@ -1,0 +1,34 @@
+[package]
+name = "transaction_lifecycle"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "transaction_struct"
+path = "src/01_transaction_struct.rs"
+
+[[bin]]
+name = "signed_transaction"
+path = "src/02_signed_transaction.rs"
+
+[[bin]]
+name = "transaction_receipt"
+path = "src/03_transaction_receipt.rs"
+
+[[bin]]
+name = "execution_status"
+path = "src/04_execution_status.rs"
+
+[[bin]]
+name = "confirmations"
+path = "src/05_confirmations.rs"
+
+[[bin]]
+name = "transaction_state"
+path = "src/06_transaction_state.rs"

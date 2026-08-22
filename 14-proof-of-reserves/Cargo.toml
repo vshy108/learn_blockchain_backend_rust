@@ -1,0 +1,34 @@
+[package]
+name = "proof_of_reserves"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "merkle_tree"
+path = "src/01_merkle_tree.rs"
+
+[[bin]]
+name = "merkle_proof"
+path = "src/02_merkle_proof.rs"
+
+[[bin]]
+name = "merkle_verify"
+path = "src/03_merkle_verify.rs"
+
+[[bin]]
+name = "commitment"
+path = "src/04_commitment.rs"
+
+[[bin]]
+name = "liability_tree"
+path = "src/05_liability_tree.rs"
+
+[[bin]]
+name = "proof_report"
+path = "src/06_proof_report.rs"

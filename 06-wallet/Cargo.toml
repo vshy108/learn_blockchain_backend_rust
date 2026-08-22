@@ -1,0 +1,35 @@
+[package]
+name = "wallet"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+sha3 = { workspace = true }
+
+[[bin]]
+name = "private_key"
+path = "src/01_private_key.rs"
+
+[[bin]]
+name = "public_key"
+path = "src/02_public_key.rs"
+
+[[bin]]
+name = "address_derivation"
+path = "src/03_address.rs"
+
+[[bin]]
+name = "signing"
+path = "src/04_signing.rs"
+
+[[bin]]
+name = "verify_signature"
+path = "src/05_verify_signature.rs"
+
+[[bin]]
+name = "wallet_core"
+path = "src/06_wallet.rs"

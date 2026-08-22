@@ -1,0 +1,35 @@
+[package]
+name = "solana"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+sha3 = { workspace = true }
+
+[[bin]]
+name = "solana_account"
+path = "src/01_account.rs"
+
+[[bin]]
+name = "program_address"
+path = "src/02_program.rs"
+
+[[bin]]
+name = "instruction"
+path = "src/03_instruction.rs"
+
+[[bin]]
+name = "transaction"
+path = "src/04_transaction.rs"
+
+[[bin]]
+name = "spl_token"
+path = "src/05_spl_token.rs"
+
+[[bin]]
+name = "commitment"
+path = "src/06_commitment.rs"

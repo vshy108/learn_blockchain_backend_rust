@@ -1,0 +1,34 @@
+[package]
+name = "evm_client"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "evm_client_basic"
+path = "src/01_evm_client.rs"
+
+[[bin]]
+name = "latest_block"
+path = "src/02_latest_block.rs"
+
+[[bin]]
+name = "get_block_details"
+path = "src/03_get_block_details.rs"
+
+[[bin]]
+name = "account_state"
+path = "src/04_account_state.rs"
+
+[[bin]]
+name = "client_error_handling"
+path = "src/05_error_handling.rs"
+
+[[bin]]
+name = "client_tests"
+path = "src/06_client_tests.rs"

@@ -1,0 +1,34 @@
+[package]
+name = "evm_rpc"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "rpc_request"
+path = "src/01_rpc_request.rs"
+
+[[bin]]
+name = "rpc_response"
+path = "src/02_rpc_response.rs"
+
+[[bin]]
+name = "hex_encoding"
+path = "src/03_hex_encoding.rs"
+
+[[bin]]
+name = "block_number"
+path = "src/04_block_number.rs"
+
+[[bin]]
+name = "get_block"
+path = "src/05_get_block.rs"
+
+[[bin]]
+name = "get_code"
+path = "src/06_get_code.rs"

@@ -1,0 +1,34 @@
+[package]
+name = "hsm_mpc"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "hsm_interface"
+path = "src/01_hsm_interface.rs"
+
+[[bin]]
+name = "hsm_integration"
+path = "src/02_hsm_integration.rs"
+
+[[bin]]
+name = "mpc_signer"
+path = "src/03_mpc_signer.rs"
+
+[[bin]]
+name = "key_recovery"
+path = "src/04_key_recovery.rs"
+
+[[bin]]
+name = "quorum"
+path = "src/05_quorum.rs"
+
+[[bin]]
+name = "rotation"
+path = "src/06_rotation.rs"

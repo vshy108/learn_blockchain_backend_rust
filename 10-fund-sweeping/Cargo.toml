@@ -1,0 +1,34 @@
+[package]
+name = "fund_sweeping"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "sweep_detector"
+path = "src/01_sweep_detector.rs"
+
+[[bin]]
+name = "sweep_threshold"
+path = "src/02_sweep_threshold.rs"
+
+[[bin]]
+name = "gas_funding"
+path = "src/03_gas_funding.rs"
+
+[[bin]]
+name = "sweep_transaction"
+path = "src/04_sweep_transaction.rs"
+
+[[bin]]
+name = "idempotency"
+path = "src/05_idempotency.rs"
+
+[[bin]]
+name = "sweep_tracker"
+path = "src/06_sweep_tracker.rs"

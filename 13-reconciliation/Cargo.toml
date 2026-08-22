@@ -1,0 +1,34 @@
+[package]
+name = "reconciliation"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "reconciliation_record"
+path = "src/01_reconciliation_record.rs"
+
+[[bin]]
+name = "blockchain_state"
+path = "src/02_blockchain_state.rs"
+
+[[bin]]
+name = "ledger_state"
+path = "src/03_ledger_state.rs"
+
+[[bin]]
+name = "discrepancy"
+path = "src/04_discrepancy.rs"
+
+[[bin]]
+name = "resolution"
+path = "src/05_resolution.rs"
+
+[[bin]]
+name = "reconciliation_report"
+path = "src/06_reconciliation_report.rs"

@@ -1,0 +1,34 @@
+[package]
+name = "blockchain_indexer"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[[bin]]
+name = "checkpoint"
+path = "src/01_checkpoint.rs"
+
+[[bin]]
+name = "block_range"
+path = "src/02_block_range.rs"
+
+[[bin]]
+name = "reorg_detection"
+path = "src/03_reorg_detection.rs"
+
+[[bin]]
+name = "reorg_rollback"
+path = "src/04_reorg_rollback.rs"
+
+[[bin]]
+name = "event_log"
+path = "src/05_event_log.rs"
+
+[[bin]]
+name = "indexer_state"
+path = "src/06_indexer_state.rs"
