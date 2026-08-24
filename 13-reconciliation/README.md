@@ -4,6 +4,8 @@
 
 Verify blockchain state matches internal ledger. Detect and fix discrepancies.
 
+> **Status:** Production-oriented learning model; it is not an automated reconciliation service for real assets.
+
 ## Why This Section
 
 Here's a hard truth: your blockchain indexer, your database, and the actual blockchain will sometimes disagree. This section teaches how to detect and fix those discrepancies.
@@ -62,7 +64,7 @@ Who's right? How did this happen? What do we do?
 ## Running Tests
 
 ```bash
-cargo test --package 13-reconciliation
+cargo test --package reconciliation
 ```
 
 ## Acceptance Criteria
@@ -73,6 +75,13 @@ cargo test --package 13-reconciliation
 - [ ] Audit log explains every correction
 - [ ] Reconciliation is automated
 - [ ] Ready for Section 14 (Proof-of-Reserves)
+
+## Learning Check
+
+- **Rust concepts:** structs, enums, comparisons, error classification, and audit-oriented data
+- **Production problem:** detecting differences between an external source of truth and internal ledger state
+- **Simplifications:** blockchain queries, ledger storage, concurrency, correction authorization, and persistence are modeled locally
+- **Exercise:** add a test proving that an unresolved discrepancy cannot be marked as corrected
 
 ## Interview Questions
 

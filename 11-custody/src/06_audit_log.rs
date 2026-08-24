@@ -38,12 +38,26 @@ pub struct AuditLog {
 
 impl AuditLog {
     pub fn new() -> Self {
-        Self { entries: Vec::new() }
+        Self {
+            entries: Vec::new(),
+        }
     }
 
     pub fn add(&mut self, action: &'static str, approver: &'static str) {
         self.entries.push(AuditEntry { action, approver });
     }
+}
+
+impl Default for AuditLog {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+fn main() {
+    let mut log = AuditLog::new();
+    log.add("approve", "ops");
+    println!("entries={}", log.entries.len());
 }
 
 #[cfg(test)]
@@ -57,10 +71,4 @@ mod tests {
         assert_eq!(log.entries.len(), 1);
         assert_eq!(log.entries[0].approver, "alice");
     }
-}
-
-fn main() {
-    let mut log = AuditLog::new();
-    log.add("approve", "ops");
-    println!("entries={}", log.entries.len());
 }

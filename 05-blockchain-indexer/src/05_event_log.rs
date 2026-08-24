@@ -20,8 +20,17 @@ pub struct EventLog {
 
 impl EventLog {
     pub fn new(address: [u8; 20], topics: Vec<[u8; 32]>, data: Vec<u8>) -> Self {
-        EventLog { address, topics, data }
+        EventLog {
+            address,
+            topics,
+            data,
+        }
     }
+}
+
+fn main() {
+    let event = EventLog::new([5u8; 20], vec![[1u8; 32]], vec![9, 9, 9]);
+    println!("Event from {:?}", event.address);
 }
 
 #[cfg(test)]
@@ -34,9 +43,4 @@ mod tests {
         assert_eq!(event.address, [5u8; 20]);
         assert_eq!(event.data, vec![9, 9, 9]);
     }
-}
-
-fn main() {
-    let event = EventLog::new([5u8; 20], vec![[1u8; 32]], vec![9, 9, 9]);
-    println!("Event from {:?}", event.address);
 }

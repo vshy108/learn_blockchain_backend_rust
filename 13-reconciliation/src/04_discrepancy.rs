@@ -29,6 +29,10 @@ pub fn detect_discrepancy(on_chain: u64, in_ledger: u64) -> i64 {
     on_chain as i64 - in_ledger as i64
 }
 
+fn main() {
+    println!("{}", detect_discrepancy(40, 35));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -37,8 +41,4 @@ mod tests {
     fn reports_positive_difference() {
         assert_eq!(detect_discrepancy(100, 90), 10);
     }
-}
-
-fn main() {
-    println!("{}", detect_discrepancy(40, 35));
 }

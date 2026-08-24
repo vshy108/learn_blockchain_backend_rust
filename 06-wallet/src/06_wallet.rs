@@ -40,8 +40,21 @@ pub struct Wallet {
 
 impl Wallet {
     pub fn new(private_key: [u8; 32]) -> Self {
-        let public_key = PublicKey { bytes: { let mut b = [0u8; 65]; b[..32].copy_from_slice(&private_key); b[32..].fill(0x01); b } };
-        let address = Address { bytes: { let mut a = [0u8; 20]; a.copy_from_slice(&public_key.bytes[45..65]); a } };
+        let public_key = PublicKey {
+            bytes: {
+                let mut b = [0u8; 65];
+                b[..32].copy_from_slice(&private_key);
+                b[32..].fill(0x01);
+                b
+            },
+        };
+        let address = Address {
+            bytes: {
+                let mut a = [0u8; 20];
+                a.copy_from_slice(&public_key.bytes[45..65]);
+                a
+            },
+        };
         Wallet {
             private_key: PrivateKey { bytes: private_key },
             public_key,
@@ -51,13 +64,18 @@ impl Wallet {
 
     pub fn sign(&self, msg: &[u8]) -> Signature {
         let mut out = [0u8; 64];
-        let mut idx = 0;
-        for b in msg {
-            out[idx % 64] = out[idx % 64].wrapping_add(self.private_key.bytes[idx % 32]).wrapping_add(*b);
-            idx += 1;
+        for (idx, b) in msg.iter().enumerate() {
+            out[idx % 64] = out[idx % 64]
+                .wrapping_add(self.private_key.bytes[idx % 32])
+                .wrapping_add(*b);
         }
         Signature { bytes: out }
     }
+}
+
+fn main() {
+    let wallet = Wallet::new([42u8; 32]);
+    println!("Wallet address len={}", wallet.address.bytes.len());
 }
 
 #[cfg(test)]
@@ -77,9 +95,4 @@ mod tests {
         let sig = wallet.sign(b"demo");
         assert_eq!(sig.bytes.len(), 64);
     }
-}
-
-fn main() {
-    let wallet = Wallet::new([42u8; 32]);
-    println!("Wallet address len={}", wallet.address.bytes.len());
 }

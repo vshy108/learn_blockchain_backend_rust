@@ -29,6 +29,10 @@ pub fn verify_proof(leaf: [u8; 32], path: &[[u8; 32]]) -> bool {
     !path.is_empty() && leaf != [0u8; 32]
 }
 
+fn main() {
+    println!("{}", verify_proof([1u8; 32], &[[2u8; 32]]));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -37,8 +41,4 @@ mod tests {
     fn accepts_non_empty_proof() {
         assert!(verify_proof([5u8; 32], &[[6u8; 32]]));
     }
-}
-
-fn main() {
-    println!("{}", verify_proof([1u8; 32], &[[2u8; 32]]));
 }

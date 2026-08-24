@@ -28,6 +28,14 @@ impl BlockDetails {
     }
 }
 
+fn main() {
+    let block = BlockDetails::new(123, "0xabc", "0xdef");
+    println!(
+        "Block #{} hash={} parent={}",
+        block.number, block.hash, block.parent_hash
+    );
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,9 +46,4 @@ mod tests {
         assert_eq!(block.number, 123);
         assert_eq!(block.hash, "0xabc");
     }
-}
-
-fn main() {
-    let block = BlockDetails::new(123, "0xabc", "0xdef");
-    println!("Block #{} hash={} parent={}", block.number, block.hash, block.parent_hash);
 }

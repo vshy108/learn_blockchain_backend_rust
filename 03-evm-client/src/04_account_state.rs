@@ -23,6 +23,11 @@ impl AccountState {
     }
 }
 
+fn main() {
+    let state = AccountState::new(10_000, 7);
+    println!("Balance={} nonce={}", state.balance, state.nonce);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -33,9 +38,4 @@ mod tests {
         assert_eq!(state.balance, 10_000);
         assert_eq!(state.nonce, 7);
     }
-}
-
-fn main() {
-    let state = AccountState::new(10_000, 7);
-    println!("Balance={} nonce={}", state.balance, state.nonce);
 }

@@ -36,6 +36,11 @@ impl RpcPool {
     }
 }
 
+fn main() {
+    let pool = RpcPool::new(vec!["http://localhost:8545"]);
+    println!("endpoints={}", pool.endpoints.len());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,9 +50,4 @@ mod tests {
         let pool = RpcPool::new(vec!["http://node-1", "http://node-2"]);
         assert_eq!(pool.endpoints.len(), 2);
     }
-}
-
-fn main() {
-    let pool = RpcPool::new(vec!["http://localhost:8545"]);
-    println!("endpoints={}", pool.endpoints.len());
 }

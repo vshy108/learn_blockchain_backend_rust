@@ -4,6 +4,8 @@
 
 Understand Bitcoin's fundamentally different transaction model: UTXOs instead of accounts.
 
+> **Status:** Learning model of Bitcoin transaction construction; it is not a Bitcoin-compatible wallet or broadcaster.
+
 ## Why This Section
 
 You've learned EVM (accounts). Bitcoin is completely different. This teaches you a second mental model, which is essential for building a multi-chain gateway. Solana will be the third.
@@ -102,7 +104,7 @@ pub struct Output {
 ## Running Tests
 
 ```bash
-cargo test --package 07-bitcoin
+cargo test --package bitcoin
 ```
 
 ## Acceptance Criteria
@@ -113,6 +115,13 @@ cargo test --package 07-bitcoin
 - [ ] Fee calculation matches expectation
 - [ ] Transaction serialization is valid
 - [ ] Ready for Section 08 (Solana)
+
+## Learning Check
+
+- **Rust concepts:** structs, `Vec`, fixed-size arrays, borrowing, and value validation
+- **Production problem:** selecting spendable outputs and preserving the input/output/fee invariant
+- **Simplifications:** scripts, signatures, serialization, fee estimation, and network broadcasting are represented locally
+- **Exercise:** add a test that rejects a transaction whose outputs exceed its input value
 
 ## Interview Questions
 

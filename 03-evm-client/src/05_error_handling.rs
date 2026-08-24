@@ -20,8 +20,16 @@ pub enum ClientError {
 
 impl ClientError {
     pub fn rpc(code: i64, message: &str) -> Self {
-        ClientError::RpcError { code, message: message.to_string() }
+        ClientError::RpcError {
+            code,
+            message: message.to_string(),
+        }
     }
+}
+
+fn main() {
+    let err = ClientError::rpc(-32000, "node unavailable");
+    println!("Error: {:?}", err);
 }
 
 #[cfg(test)]
@@ -33,9 +41,4 @@ mod tests {
         let err = ClientError::rpc(-32601, "Method not found");
         assert!(matches!(err, ClientError::RpcError { code: -32601, .. }));
     }
-}
-
-fn main() {
-    let err = ClientError::rpc(-32000, "node unavailable");
-    println!("Error: {:?}", err);
 }

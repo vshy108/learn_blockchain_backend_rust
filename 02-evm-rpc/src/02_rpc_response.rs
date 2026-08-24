@@ -38,13 +38,21 @@ impl RpcResponse {
 
         if let Some(error) = value.get("error") {
             let code = error["code"].as_i64().ok_or("missing error code")?;
-            let message = error["message"].as_str().unwrap_or("unknown error").to_string();
+            let message = error["message"]
+                .as_str()
+                .unwrap_or("unknown error")
+                .to_string();
             return Ok(RpcResponse::Error { id, code, message });
         }
 
         let result = value.get("result").cloned().unwrap_or(Value::Null);
         Ok(RpcResponse::Success { id, result })
     }
+}
+
+fn main() {
+    let value = json!({ "jsonrpc": "2.0", "result": "0x1", "id": 1 });
+    println!("Parsed: {:?}", RpcResponse::from_json(&value));
 }
 
 #[cfg(test)]
@@ -70,9 +78,4 @@ mod tests {
         let response = RpcResponse::from_json(&value).unwrap();
         assert!(matches!(response, RpcResponse::Error { code: -32601, .. }));
     }
-}
-
-fn main() {
-    let value = json!({ "jsonrpc": "2.0", "result": "0x1", "id": 1 });
-    println!("Parsed: {:?}", RpcResponse::from_json(&value));
 }

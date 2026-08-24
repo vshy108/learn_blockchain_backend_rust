@@ -36,6 +36,11 @@ impl CircuitBreaker {
     }
 }
 
+fn main() {
+    let breaker = CircuitBreaker::new(false);
+    println!("open={}", breaker.open);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,9 +50,4 @@ mod tests {
         let breaker = CircuitBreaker::new(true);
         assert!(breaker.open);
     }
-}
-
-fn main() {
-    let breaker = CircuitBreaker::new(false);
-    println!("open={}", breaker.open);
 }

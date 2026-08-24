@@ -131,6 +131,19 @@ impl fmt::Display for Account {
     }
 }
 
+fn main() {
+    let mut wallet = Account::eoa([1u8; 20], 1_000_000, 0);
+    println!("Wallet before: {}", wallet);
+
+    wallet.credit(500);
+    println!("Wallet after credit: {}", wallet);
+
+    assert!(wallet.debit(200));
+    println!("Wallet after debit: {}", wallet);
+
+    println!("Next nonce: {}", wallet.next_nonce());
+}
+
 // --- TESTS ---
 
 #[cfg(test)]
@@ -232,16 +245,3 @@ mod tests {
 // - Account state is the fundamental EVM concept
 // - You can see why balance and nonce are separate concerns
 // - Contract accounts are different from EOAs, which is critical for security and indexing
-
-fn main() {
-    let mut wallet = Account::eoa([1u8; 20], 1_000_000, 0);
-    println!("Wallet before: {}", wallet);
-
-    wallet.credit(500);
-    println!("Wallet after credit: {}", wallet);
-
-    assert!(wallet.debit(200));
-    println!("Wallet after debit: {}", wallet);
-
-    println!("Next nonce: {}", wallet.next_nonce());
-}

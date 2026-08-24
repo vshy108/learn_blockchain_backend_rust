@@ -29,6 +29,10 @@ pub fn resolve_difference(current: u64, corrected: u64) -> u64 {
     corrected.saturating_sub(current)
 }
 
+fn main() {
+    println!("{}", resolve_difference(50, 60));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -37,8 +41,4 @@ mod tests {
     fn computes_correction_amount() {
         assert_eq!(resolve_difference(90, 100), 10);
     }
-}
-
-fn main() {
-    println!("{}", resolve_difference(50, 60));
 }

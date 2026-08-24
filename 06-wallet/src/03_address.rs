@@ -24,6 +24,11 @@ impl Address {
     }
 }
 
+fn main() {
+    let address = Address::from_public_key(&[0u8; 65]);
+    println!("Address: {:?}", address.bytes);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -34,9 +39,4 @@ mod tests {
         let address = Address::from_public_key(&key);
         assert_eq!(address.bytes.len(), 20);
     }
-}
-
-fn main() {
-    let address = Address::from_public_key(&[0u8; 65]);
-    println!("Address: {:?}", address.bytes);
 }

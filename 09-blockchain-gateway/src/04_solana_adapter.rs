@@ -36,6 +36,11 @@ impl SolanaAdapter {
     }
 }
 
+fn main() {
+    let adapter = SolanaAdapter::new(6);
+    println!("slot={}", adapter.slot);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,9 +50,4 @@ mod tests {
         let adapter = SolanaAdapter::new(777);
         assert_eq!(adapter.slot, 777);
     }
-}
-
-fn main() {
-    let adapter = SolanaAdapter::new(6);
-    println!("slot={}", adapter.slot);
 }

@@ -7,7 +7,15 @@ pub struct Deposit {
 }
 
 pub fn detect_sweepable(deposits: &[Deposit], threshold: u64) -> Vec<Deposit> {
-    deposits.iter().filter(|d| d.amount >= threshold).cloned().collect()
+    deposits
+        .iter()
+        .filter(|d| d.amount >= threshold)
+        .cloned()
+        .collect()
+}
+
+fn main() {
+    println!("{}", detect_sweepable(&[], 10).len());
 }
 
 #[cfg(test)]
@@ -17,15 +25,17 @@ mod tests {
     #[test]
     fn detects_only_large_enough_deposits() {
         let deposits = [
-            Deposit { wallet: [1u8; 20], amount: 100 },
-            Deposit { wallet: [2u8; 20], amount: 500 },
+            Deposit {
+                wallet: [1u8; 20],
+                amount: 100,
+            },
+            Deposit {
+                wallet: [2u8; 20],
+                amount: 500,
+            },
         ];
         let sweepable = detect_sweepable(&deposits, 250);
         assert_eq!(sweepable.len(), 1);
         assert_eq!(sweepable[0].wallet, [2u8; 20]);
     }
-}
-
-fn main() {
-    println!("{}", detect_sweepable(&[], 10).len());
 }

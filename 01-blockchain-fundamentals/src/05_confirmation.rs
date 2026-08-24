@@ -53,6 +53,12 @@ impl ConfirmationState {
     }
 }
 
+fn main() {
+    let state = ConfirmationState::new(100, 106);
+    println!("Confirmations: {}", state.confirmations());
+    println!("Safe at 6? {}", state.is_safe(6));
+}
+
 // --- TESTS ---
 
 #[cfg(test)]
@@ -77,10 +83,4 @@ mod tests {
         assert!(state.is_safe(6));
         assert!(!state.is_safe(7));
     }
-}
-
-fn main() {
-    let state = ConfirmationState::new(100, 106);
-    println!("Confirmations: {}", state.confirmations());
-    println!("Safe at 6? {}", state.is_safe(6));
 }

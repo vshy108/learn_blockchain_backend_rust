@@ -19,12 +19,20 @@ pub struct ReorgDetection {
 
 impl ReorgDetection {
     pub fn new(expected_hash: [u8; 32], actual_hash: [u8; 32]) -> Self {
-        ReorgDetection { expected_hash, actual_hash }
+        ReorgDetection {
+            expected_hash,
+            actual_hash,
+        }
     }
 
     pub fn happened(&self) -> bool {
         self.expected_hash != self.actual_hash
     }
+}
+
+fn main() {
+    let detection = ReorgDetection::new([1u8; 32], [2u8; 32]);
+    println!("Reorg? {}", detection.happened());
 }
 
 #[cfg(test)]
@@ -42,9 +50,4 @@ mod tests {
         let detection = ReorgDetection::new([7u8; 32], [7u8; 32]);
         assert!(!detection.happened());
     }
-}
-
-fn main() {
-    let detection = ReorgDetection::new([1u8; 32], [2u8; 32]);
-    println!("Reorg? {}", detection.happened());
 }

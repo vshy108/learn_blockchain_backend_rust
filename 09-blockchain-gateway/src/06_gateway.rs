@@ -7,8 +7,21 @@ pub struct Gateway {
 
 impl Gateway {
     pub fn new() -> Self {
-        Self { supported_chains: vec!["bitcoin", "evm", "solana"] }
+        Self {
+            supported_chains: vec!["bitcoin", "evm", "solana"],
+        }
     }
+}
+
+impl Default for Gateway {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+fn main() {
+    let gateway = Gateway::new();
+    println!("chains={}", gateway.supported_chains.len());
 }
 
 #[cfg(test)]
@@ -21,9 +34,4 @@ mod tests {
         assert_eq!(gateway.supported_chains.len(), 3);
         assert!(gateway.supported_chains.contains(&"evm"));
     }
-}
-
-fn main() {
-    let gateway = Gateway::new();
-    println!("chains={}", gateway.supported_chains.len());
 }

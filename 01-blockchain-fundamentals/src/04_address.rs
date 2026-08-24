@@ -48,7 +48,10 @@ impl AddressUtil {
     pub fn from_hex(input: &str) -> Result<Address, String> {
         let cleaned = input.trim().trim_start_matches("0x");
         if cleaned.len() != 40 {
-            return Err(format!("address must be 40 hex chars, got {}", cleaned.len()));
+            return Err(format!(
+                "address must be 40 hex chars, got {}",
+                cleaned.len()
+            ));
         }
         if !cleaned.chars().all(|c| c.is_ascii_hexdigit()) {
             return Err("address contains non-hex characters".to_string());
@@ -95,7 +98,11 @@ impl AddressUtil {
                 }
                 _ => false,
             };
-            hex.push(if should_upper { c.to_ascii_uppercase() } else { c });
+            hex.push(if should_upper {
+                c.to_ascii_uppercase()
+            } else {
+                c
+            });
         }
         cleaned == hex
     }
@@ -104,6 +111,16 @@ impl AddressUtil {
 impl fmt::Display for AddressUtil {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "AddressUtil")
+    }
+}
+
+fn main() {
+    match AddressUtil::from_hex("0x00112233445566778899aabbccddeeff00112233") {
+        Ok(address) => {
+            println!("Address hex: {}", AddressUtil::to_hex(&address));
+            println!("Zero address? {}", AddressUtil::is_zero(&address));
+        }
+        Err(error) => println!("Invalid address: {error}"),
     }
 }
 
@@ -116,7 +133,10 @@ mod tests {
     #[test]
     fn converts_address_to_hex() {
         let address = [0x12u8; 20];
-        assert_eq!(AddressUtil::to_hex(&address), "1212121212121212121212121212121212121212");
+        assert_eq!(
+            AddressUtil::to_hex(&address),
+            "1212121212121212121212121212121212121212"
+        );
     }
 
     #[test]
@@ -145,10 +165,4 @@ mod tests {
         assert_eq!(address.len(), 20);
         assert_ne!(address, [0u8; 20]);
     }
-}
-
-fn main() {
-    let address = AddressUtil::from_hex("0x00112233445566778899aabbccddeeff00112233").unwrap();
-    println!("Address hex: {}", AddressUtil::to_hex(&address));
-    println!("Zero address? {}", AddressUtil::is_zero(&address));
 }

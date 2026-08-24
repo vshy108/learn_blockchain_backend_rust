@@ -68,37 +68,38 @@ pub type Address = [u8; 20];
 pub struct Transaction {
     /// Unique identifier of this TX (hash of TX data).
     pub hash: [u8; 32],
-    
+
     /// Which block this TX is in (if mined; None if pending).
     pub block_number: Option<u64>,
-    
+
     /// Position within the block (0-indexed).
     pub index_in_block: Option<usize>,
-    
+
     /// Sender address.
     pub from: Address,
-    
+
     /// Recipient address (can be None for contract creation).
     pub to: Option<Address>,
-    
+
     /// Value transferred (in smallest units: wei, satoshi, lamport).
     pub value: u64,
-    
+
     /// Additional data (EVM calldata, Bitcoin script, Solana instruction data).
     pub data: Vec<u8>,
-    
+
     /// Gas limit (EVM only; max computation allowed).
     pub gas_limit: u64,
-    
+
     /// Gas price (EVM only; cost per unit of gas).
     pub gas_price: u64,
-    
+
     /// Nonce (EVM only; transaction count for sender).
     pub nonce: u64,
 }
 
 impl Transaction {
     /// Create a new transaction.
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         hash: [u8; 32],
         from: Address,
@@ -146,7 +147,8 @@ impl Transaction {
     /// Calculate the total cost of this transaction.
     /// cost = value + (gas_limit * gas_price)
     pub fn total_cost(&self) -> u64 {
-        self.value.saturating_add(self.gas_limit.saturating_mul(self.gas_price))
+        self.value
+            .saturating_add(self.gas_limit.saturating_mul(self.gas_price))
     }
 
     /// Calculate gas fee (not including value transferred).
@@ -163,7 +165,7 @@ impl fmt::Display for Transaction {
         } else {
             "Pending".to_string()
         };
-        
+
         write!(
             f,
             "TX {} ({}) from {:?} → {:?}, value: {}, gas: {}",
@@ -184,13 +186,13 @@ impl fmt::Display for Transaction {
 pub enum ExecutionStatus {
     /// TX not yet mined (no receipt yet).
     Pending,
-    
+
     /// TX executed successfully (status = 1).
     Success,
-    
+
     /// TX reverted (status = 0). Cost gas but had no effect.
     Reverted,
-    
+
     /// TX ran out of gas. Consumed all gas_limit. Status = 0.
     OutOfGas,
 }
@@ -213,25 +215,25 @@ impl fmt::Display for ExecutionStatus {
 pub struct Receipt {
     /// The transaction hash this receipt is for.
     pub transaction_hash: [u8; 32],
-    
+
     /// Execution status: 1 = success, 0 = failure.
     pub status: ExecutionStatus,
-    
+
     /// How much gas was actually used (can be less than gas_limit).
     pub gas_used: u64,
-    
+
     /// Cumulative gas used in the block (running total).
     pub cumulative_gas_used: u64,
-    
+
     /// Logs/events emitted during execution.
     pub logs: Vec<Log>,
-    
+
     /// If this TX created a contract, this is the new contract address.
     pub contract_address: Option<Address>,
-    
+
     /// Block number where this TX was mined.
     pub block_number: u64,
-    
+
     /// Index of this TX in the block.
     pub transaction_index: usize,
 }
@@ -265,7 +267,10 @@ impl Receipt {
 
     /// Check if execution failed (reverted or out-of-gas).
     pub fn is_failed(&self) -> bool {
-        matches!(self.status, ExecutionStatus::Reverted | ExecutionStatus::OutOfGas)
+        matches!(
+            self.status,
+            ExecutionStatus::Reverted | ExecutionStatus::OutOfGas
+        )
     }
 
     /// Add a log to this receipt.
@@ -274,7 +279,7 @@ impl Receipt {
     }
 
     /// Refund amount: gas_limit - gas_used (typical 50% refund in EVM).
-    /// 
+    ///
     /// Note: Real EVM refunds are more complex (accounts for freed storage, etc.).
     /// This is simplified.
     pub fn gas_refund_simple(&self, gas_price: u64) -> u64 {
@@ -306,10 +311,10 @@ impl fmt::Display for Receipt {
 pub struct Log {
     /// Address that emitted this log.
     pub address: Address,
-    
+
     /// Topics (indexed parameters).
     pub topics: Vec<[u8; 32]>,
-    
+
     /// Data (non-indexed parameters).
     pub data: Vec<u8>,
 }
@@ -323,6 +328,41 @@ impl Log {
             data,
         }
     }
+}
+
+fn main() {
+    // Example: Create TX, mine it, then see receipt shows failure
+    let tx = Transaction::new(
+        [1u8; 32],
+        [1u8; 20],
+        Some([2u8; 20]),
+        0,
+        vec![],
+        21_000,
+        50,
+        0,
+    );
+
+    println!("Before mining: {}", tx);
+    println!("Pending: {}", tx.is_pending());
+
+    let tx_mined = tx.mined(100, 5);
+    println!("After mining: {}", tx_mined);
+    println!("Mined: {}", tx_mined.is_mined());
+
+    // Create receipt showing failure
+    let receipt = Receipt::new(
+        tx_mined.hash,
+        ExecutionStatus::Reverted,
+        21_000,
+        21_000,
+        100,
+        5,
+    );
+
+    println!("Receipt: {}", receipt);
+    println!("Successful: {}", receipt.is_successful());
+    println!("Gas refund: {}", receipt.gas_refund_simple(50));
 }
 
 // --- TESTS ---
@@ -347,7 +387,7 @@ mod tests {
             50,
             0,
         );
-        
+
         assert!(tx.is_pending());
         assert!(!tx.is_mined());
     }
@@ -363,8 +403,9 @@ mod tests {
             21_000,
             50,
             0,
-        ).mined(100, 5);
-        
+        )
+        .mined(100, 5);
+
         assert!(tx.is_mined());
         assert!(!tx.is_pending());
         assert_eq!(tx.block_number, Some(100));
@@ -377,13 +418,13 @@ mod tests {
             [0u8; 32],
             mock_address(1),
             Some(mock_address(2)),
-            1_000_000,  // 1 ETH in wei (simplified)
+            1_000_000, // 1 ETH in wei (simplified)
             vec![],
-            21_000,     // gas limit
-            50,         // gas price
+            21_000, // gas limit
+            50,     // gas price
             0,
         );
-        
+
         let gas_fee = 21_000u64 * 50;
         let total = 1_000_000 + gas_fee;
         assert_eq!(tx.total_cost(), total);
@@ -401,51 +442,30 @@ mod tests {
             50,
             0,
         );
-        
+
         assert_eq!(tx.gas_fee(), 21_000 * 50);
     }
 
     #[test]
     fn receipt_success_is_identified() {
-        let receipt = Receipt::new(
-            [0u8; 32],
-            ExecutionStatus::Success,
-            21_000,
-            21_000,
-            100,
-            0,
-        );
-        
+        let receipt = Receipt::new([0u8; 32], ExecutionStatus::Success, 21_000, 21_000, 100, 0);
+
         assert!(receipt.is_successful());
         assert!(!receipt.is_failed());
     }
 
     #[test]
     fn receipt_reverted_is_identified() {
-        let receipt = Receipt::new(
-            [0u8; 32],
-            ExecutionStatus::Reverted,
-            21_000,
-            21_000,
-            100,
-            0,
-        );
-        
+        let receipt = Receipt::new([0u8; 32], ExecutionStatus::Reverted, 21_000, 21_000, 100, 0);
+
         assert!(!receipt.is_successful());
         assert!(receipt.is_failed());
     }
 
     #[test]
     fn receipt_out_of_gas_is_identified() {
-        let receipt = Receipt::new(
-            [0u8; 32],
-            ExecutionStatus::OutOfGas,
-            21_000,
-            21_000,
-            100,
-            0,
-        );
-        
+        let receipt = Receipt::new([0u8; 32], ExecutionStatus::OutOfGas, 21_000, 21_000, 100, 0);
+
         assert!(!receipt.is_successful());
         assert!(receipt.is_failed());
     }
@@ -455,35 +475,24 @@ mod tests {
         let successful = Receipt::new(
             [0u8; 32],
             ExecutionStatus::Success,
-            18_000,  // Used 18k gas out of 21k
+            18_000, // Used 18k gas out of 21k
             18_000,
             100,
             0,
         );
-        
+
         let refunded = successful.gas_refund_simple(50);
         assert!(refunded > 0);
-        
-        let failed = Receipt::new(
-            [0u8; 32],
-            ExecutionStatus::Reverted,
-            21_000,
-            21_000,
-            100,
-            0,
-        );
-        
+
+        let failed = Receipt::new([0u8; 32], ExecutionStatus::Reverted, 21_000, 21_000, 100, 0);
+
         assert_eq!(failed.gas_refund_simple(50), 0);
     }
 
     #[test]
     fn log_creation() {
-        let log = Log::new(
-            mock_address(1),
-            vec![[42u8; 32]],
-            vec![1, 2, 3],
-        );
-        
+        let log = Log::new(mock_address(1), vec![[42u8; 32]], vec![1, 2, 3]);
+
         assert_eq!(log.address, mock_address(1));
         assert_eq!(log.topics.len(), 1);
         assert_eq!(log.data, vec![1, 2, 3]);
@@ -491,18 +500,11 @@ mod tests {
 
     #[test]
     fn receipt_with_logs() {
-        let mut receipt = Receipt::new(
-            [0u8; 32],
-            ExecutionStatus::Success,
-            21_000,
-            21_000,
-            100,
-            0,
-        );
-        
+        let mut receipt = Receipt::new([0u8; 32], ExecutionStatus::Success, 21_000, 21_000, 100, 0);
+
         receipt.add_log(Log::new(mock_address(1), vec![], vec![]));
         receipt.add_log(Log::new(mock_address(2), vec![], vec![]));
-        
+
         assert_eq!(receipt.logs.len(), 2);
     }
 
@@ -510,7 +512,7 @@ mod tests {
     fn critical_distinction_mined_vs_successful() {
         // This test emphasizes the key learning point:
         // A transaction can be MINED but NOT SUCCESSFUL.
-        
+
         let tx_mined_failed = Transaction::new(
             [1u8; 32],
             mock_address(1),
@@ -520,24 +522,25 @@ mod tests {
             21_000,
             50,
             0,
-        ).mined(100, 0);
-        
+        )
+        .mined(100, 0);
+
         // TX is mined (in block 100)
         assert!(tx_mined_failed.is_mined());
-        
+
         // But its receipt shows it failed
         let receipt_failed = Receipt::new(
             tx_mined_failed.hash,
             ExecutionStatus::Reverted,
-            21_000,  // Still used all gas!
+            21_000, // Still used all gas!
             21_000,
             100,
             0,
         );
-        
+
         assert!(!receipt_failed.is_successful());
         assert_eq!(receipt_failed.gas_used, 21_000);
-        
+
         // KEY INSIGHT:
         // - is_mined() = true ✓
         // - is_successful() = false ✗
@@ -586,38 +589,3 @@ mod tests {
 // - Type safety prevents bugs: you can't pass "5" when ExecutionStatus is needed
 // - Enums are exhaustive: the compiler catches unhandled cases
 // - No null-pointer confusion: Rust enums are never nil unless explicitly Option<T>
-
-fn main() {
-    // Example: Create TX, mine it, then see receipt shows failure
-    let tx = Transaction::new(
-        [1u8; 32],
-        [1u8; 20],
-        Some([2u8; 20]),
-        0,
-        vec![],
-        21_000,
-        50,
-        0,
-    );
-    
-    println!("Before mining: {}", tx);
-    println!("Pending: {}", tx.is_pending());
-    
-    let tx_mined = tx.mined(100, 5);
-    println!("After mining: {}", tx_mined);
-    println!("Mined: {}", tx_mined.is_mined());
-    
-    // Create receipt showing failure
-    let receipt = Receipt::new(
-        tx_mined.hash,
-        ExecutionStatus::Reverted,
-        21_000,
-        21_000,
-        100,
-        5,
-    );
-    
-    println!("Receipt: {}", receipt);
-    println!("Successful: {}", receipt.is_successful());
-    println!("Gas refund: {}", receipt.gas_refund_simple(50));
-}

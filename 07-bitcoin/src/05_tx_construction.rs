@@ -28,6 +28,11 @@ impl Transaction {
     }
 }
 
+fn main() {
+    let tx = Transaction::new(vec![], vec![]);
+    println!("outputs={}", tx.outputs.len());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -35,14 +40,21 @@ mod tests {
     #[test]
     fn builds_transaction_from_inputs_and_outputs() {
         let tx = Transaction::new(
-            vec![Input { prev_tx: [1u8; 32], index: 0 }],
-            vec![Output { amount: 75_000, to: [2u8; 20] }, Output { amount: 25_000, to: [3u8; 20] }],
+            vec![Input {
+                prev_tx: [1u8; 32],
+                index: 0,
+            }],
+            vec![
+                Output {
+                    amount: 75_000,
+                    to: [2u8; 20],
+                },
+                Output {
+                    amount: 25_000,
+                    to: [3u8; 20],
+                },
+            ],
         );
         assert_eq!(tx.total_amount(), 100_000);
     }
-}
-
-fn main() {
-    let tx = Transaction::new(vec![], vec![]);
-    println!("outputs={}", tx.outputs.len());
 }

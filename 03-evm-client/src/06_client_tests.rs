@@ -32,7 +32,9 @@ pub struct FakeTransport {
 
 impl FakeTransport {
     pub fn new(response: &str) -> Self {
-        FakeTransport { response: response.to_string() }
+        FakeTransport {
+            response: response.to_string(),
+        }
     }
 
     pub fn parse_latest_block(&self) -> Result<u64, String> {
@@ -42,6 +44,14 @@ impl FakeTransport {
             return Err("invalid block number response".to_string());
         }
         u64::from_str_radix(hex, 16).map_err(|_| "block number out of range".to_string())
+    }
+}
+
+fn main() {
+    let transport = FakeTransport::new("0x15");
+    match transport.parse_latest_block() {
+        Ok(block_number) => println!("Latest block from fake transport: {block_number}"),
+        Err(error) => println!("Could not parse latest block: {error}"),
     }
 }
 
@@ -60,9 +70,4 @@ mod tests {
         let transport = FakeTransport::new("0xzz");
         assert!(transport.parse_latest_block().is_err());
     }
-}
-
-fn main() {
-    let transport = FakeTransport::new("0x15");
-    println!("Latest block from fake transport: {}", transport.parse_latest_block().unwrap());
 }

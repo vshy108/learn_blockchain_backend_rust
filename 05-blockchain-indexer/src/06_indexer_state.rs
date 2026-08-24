@@ -20,13 +20,23 @@ pub struct IndexerState {
 
 impl IndexerState {
     pub fn new(latest_processed_block: u64, safe_checkpoint: u64) -> Self {
-        IndexerState { latest_processed_block, safe_checkpoint, last_reorg_detected: false }
+        IndexerState {
+            latest_processed_block,
+            safe_checkpoint,
+            last_reorg_detected: false,
+        }
     }
 
     pub fn mark_reorg(&mut self) {
         self.last_reorg_detected = true;
         self.latest_processed_block = self.safe_checkpoint;
     }
+}
+
+fn main() {
+    let mut state = IndexerState::new(200, 150);
+    state.mark_reorg();
+    println!("Indexer state: {:?}", state);
 }
 
 #[cfg(test)]
@@ -40,10 +50,4 @@ mod tests {
         assert!(state.last_reorg_detected);
         assert_eq!(state.latest_processed_block, 150);
     }
-}
-
-fn main() {
-    let mut state = IndexerState::new(200, 150);
-    state.mark_reorg();
-    println!("Indexer state: {:?}", state);
 }

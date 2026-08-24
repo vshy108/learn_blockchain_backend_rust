@@ -4,6 +4,8 @@
 
 Understand transaction states from creation through finality. Learn why "mined" ≠ "succeeded".
 
+> **Status:** Learning model of transaction lifecycle states; it is not a chain-compatible transaction processor.
+
 ## Why This Section
 
 Many backend engineers assume: "if TX is in a block, it worked." This section corrects that critical misunderstanding. A transaction can be included but reverted, consuming gas with no effect.
@@ -66,7 +68,7 @@ pub struct Receipt {
 ## Running Tests
 
 ```bash
-cargo test --package 04-transaction-lifecycle
+cargo test --package transaction_lifecycle
 ```
 
 ## Acceptance Criteria
@@ -77,6 +79,13 @@ cargo test --package 04-transaction-lifecycle
 - [ ] Can compute confirmation count accurately
 - [ ] Handle transaction replacement (nonce reuse)
 - [ ] Ready for Section 05 (Indexer)
+
+## Learning Check
+
+- **Rust concepts:** enums, `Option`, state transitions, ownership, and invariant-focused tests
+- **Production problem:** distinguishing inclusion, execution result, confirmation, and finality
+- **Simplifications:** signing, receipts, and chain state are represented with local structs rather than real protocol data
+- **Exercise:** add a test proving that a reverted transaction still consumes gas and its nonce
 
 ## Interview Questions
 

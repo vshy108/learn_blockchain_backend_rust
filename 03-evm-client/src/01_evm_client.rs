@@ -29,12 +29,19 @@ pub struct EvmClient {
 
 impl EvmClient {
     pub fn new(rpc_url: &str) -> Self {
-        EvmClient { rpc_url: rpc_url.to_string() }
+        EvmClient {
+            rpc_url: rpc_url.to_string(),
+        }
     }
 
     pub fn base_url(&self) -> &str {
         &self.rpc_url
     }
+}
+
+fn main() {
+    let client = EvmClient::new("http://localhost:8545");
+    println!("RPC URL: {}", client.base_url());
 }
 
 #[cfg(test)]
@@ -46,9 +53,4 @@ mod tests {
         let client = EvmClient::new("http://localhost:8545");
         assert_eq!(client.base_url(), "http://localhost:8545");
     }
-}
-
-fn main() {
-    let client = EvmClient::new("http://localhost:8545");
-    println!("RPC URL: {}", client.base_url());
 }

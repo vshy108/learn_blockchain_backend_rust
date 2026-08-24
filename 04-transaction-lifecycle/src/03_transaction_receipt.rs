@@ -48,6 +48,11 @@ impl Receipt {
     }
 }
 
+fn main() {
+    let receipt = Receipt::success([1u8; 32], 21_000, 21_000);
+    println!("Receipt status: {:?}", receipt.status);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -58,9 +63,4 @@ mod tests {
         assert!(matches!(receipt.status, ExecutionStatus::Success));
         assert_eq!(receipt.gas_used, 21_000);
     }
-}
-
-fn main() {
-    let receipt = Receipt::success([1u8; 32], 21_000, 21_000);
-    println!("Receipt status: {:?}", receipt.status);
 }

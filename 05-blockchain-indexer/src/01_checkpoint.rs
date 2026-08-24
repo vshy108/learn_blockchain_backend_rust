@@ -25,13 +25,22 @@ pub struct Checkpoint {
 
 impl Checkpoint {
     pub fn new(block_number: u64, block_hash: [u8; 32]) -> Self {
-        Checkpoint { block_number, block_hash }
+        Checkpoint {
+            block_number,
+            block_hash,
+        }
     }
 
     pub fn advance(&mut self, next_block: u64, next_hash: [u8; 32]) {
         self.block_number = next_block;
         self.block_hash = next_hash;
     }
+}
+
+fn main() {
+    let mut checkpoint = Checkpoint::new(100, [1u8; 32]);
+    checkpoint.advance(101, [2u8; 32]);
+    println!("Checkpoint at block {}", checkpoint.block_number);
 }
 
 #[cfg(test)]
@@ -45,10 +54,4 @@ mod tests {
         assert_eq!(checkpoint.block_number, 101);
         assert_eq!(checkpoint.block_hash, [2u8; 32]);
     }
-}
-
-fn main() {
-    let mut checkpoint = Checkpoint::new(100, [1u8; 32]);
-    checkpoint.advance(101, [2u8; 32]);
-    println!("Checkpoint at block {}", checkpoint.block_number);
 }

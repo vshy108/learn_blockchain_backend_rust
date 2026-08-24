@@ -43,6 +43,14 @@ impl BlockRequest {
     }
 }
 
+fn main() {
+    let req = BlockRequest::new("latest", false);
+    match serde_json::to_string_pretty(&req.as_params()) {
+        Ok(json) => println!("{json}"),
+        Err(error) => println!("Could not serialize request: {error}"),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -54,9 +62,4 @@ mod tests {
         assert_eq!(params[0], json!("0x10"));
         assert_eq!(params[1], json!(true));
     }
-}
-
-fn main() {
-    let req = BlockRequest::new("latest", false);
-    println!("{}", serde_json::to_string_pretty(&req.as_params()).unwrap());
 }

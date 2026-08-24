@@ -4,6 +4,8 @@
 
 Learn how to communicate with Ethereum nodes using JSON-RPC 2.0. Understand the protocol structure, error handling, and hexadecimal encoding.
 
+> **Status:** Learning example using local request and response models; it does not connect to a live Ethereum node.
+
 ## Why This Section
 
 Your Rust code will never touch blocks or transactions directly. It will always ask an **RPC node** for this data. Understanding the protocol is critical for debugging and handling edge cases.
@@ -78,8 +80,8 @@ Your Rust code will never touch blocks or transactions directly. It will always 
 ## Running Tests
 
 ```bash
-cargo test --package 02-evm-rpc
-cargo test --package 02-evm-rpc -- --nocapture
+cargo test --package evm_rpc
+cargo test --package evm_rpc -- --nocapture
 ```
 
 ## Acceptance Criteria
@@ -91,6 +93,13 @@ After completing this section:
 - [ ] Convert hex ↔ u64 safely
 - [ ] Understand the 6 key EVM RPC methods
 - [ ] Ready for Section 03 (EVM Client Layer)
+
+## Learning Check
+
+- **Rust concepts:** enums, structs, `Result`, string slices, and JSON values
+- **Production problem:** separating RPC protocol errors from local parsing errors
+- **Simplifications:** requests are built and parsed locally; HTTP transport, timeouts, and retries are not implemented
+- **Exercise:** add a test that rejects a response whose request ID does not match
 
 ## Interview Questions
 

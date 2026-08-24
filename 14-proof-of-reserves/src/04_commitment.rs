@@ -36,6 +36,10 @@ impl Commitment {
     }
 }
 
+fn main() {
+    println!("{:?}", Commitment::new([1u8; 32]).root);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,8 +49,4 @@ mod tests {
         let c = Commitment::new([3u8; 32]);
         assert_eq!(c.root, [3u8; 32]);
     }
-}
-
-fn main() {
-    println!("{:?}", Commitment::new([1u8; 32]).root);
 }

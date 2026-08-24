@@ -26,7 +26,10 @@ pub struct ConfirmationState {
 
 impl ConfirmationState {
     pub fn new(tx_block: u64, latest_block: u64) -> Self {
-        ConfirmationState { tx_block, latest_block }
+        ConfirmationState {
+            tx_block,
+            latest_block,
+        }
     }
 
     pub fn confirmations(&self) -> u64 {
@@ -35,6 +38,11 @@ impl ConfirmationState {
         }
         self.latest_block - self.tx_block
     }
+}
+
+fn main() {
+    let state = ConfirmationState::new(100, 106);
+    println!("Confirmations: {}", state.confirmations());
 }
 
 #[cfg(test)]
@@ -50,9 +58,4 @@ mod tests {
     fn pending_tx_is_zero_confirmations() {
         assert_eq!(ConfirmationState::new(100, 100).confirmations(), 0);
     }
-}
-
-fn main() {
-    let state = ConfirmationState::new(100, 106);
-    println!("Confirmations: {}", state.confirmations());
 }

@@ -35,6 +35,10 @@ pub trait HsmSigner {
     fn sign(&self, request: &HsmRequest) -> [u8; 64];
 }
 
+fn main() {
+    println!("hsm ready");
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -51,11 +55,10 @@ mod tests {
     #[test]
     fn hsm_signer_returns_signature() {
         let hsm = FakeHsm;
-        let sig = hsm.sign(&HsmRequest { tx_hash: [7u8; 32], key_id: "prod-1" });
+        let sig = hsm.sign(&HsmRequest {
+            tx_hash: [7u8; 32],
+            key_id: "prod-1",
+        });
         assert_eq!(sig[..32], [7u8; 32]);
     }
-}
-
-fn main() {
-    println!("hsm ready");
 }

@@ -19,13 +19,18 @@ pub struct Signature {
 impl Signature {
     pub fn sign(msg: &[u8], private_key: &[u8; 32]) -> Self {
         let mut out = [0u8; 64];
-        let mut idx = 0;
-        for b in msg {
-            out[idx % 64] = out[idx % 64].wrapping_add(private_key[idx % 32]).wrapping_add(*b);
-            idx += 1;
+        for (idx, b) in msg.iter().enumerate() {
+            out[idx % 64] = out[idx % 64]
+                .wrapping_add(private_key[idx % 32])
+                .wrapping_add(*b);
         }
         Signature { bytes: out }
     }
+}
+
+fn main() {
+    let sig = Signature::sign(b"hello", &[1u8; 32]);
+    println!("Signature: {:?}", sig.bytes);
 }
 
 #[cfg(test)]
@@ -37,9 +42,4 @@ mod tests {
         let sig = Signature::sign(b"hello", &[1u8; 32]);
         assert_eq!(sig.bytes.len(), 64);
     }
-}
-
-fn main() {
-    let sig = Signature::sign(b"hello", &[1u8; 32]);
-    println!("Signature: {:?}", sig.bytes);
 }

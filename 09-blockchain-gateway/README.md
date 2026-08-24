@@ -4,6 +4,8 @@
 
 Build a unified abstraction that works across Bitcoin, EVM, and Solana without forcing incompatible operations into one interface.
 
+> **Status:** Production-oriented learning model using local adapters; it is not a live multi-chain gateway.
+
 ## Why This Section
 
 Now you know three distinct blockchain models. How do you build a system that talks to all three without a tangled mess of `if chain == Bitcoin`?
@@ -56,7 +58,7 @@ impl Blockchain for SolanaAdapter { ... }
 ## Running Tests
 
 ```bash
-cargo test --package 09-blockchain-gateway
+cargo test --package blockchain_gateway
 ```
 
 ## Acceptance Criteria
@@ -67,6 +69,13 @@ cargo test --package 09-blockchain-gateway
 - [ ] Routing works correctly
 - [ ] Tests include all three chains
 - [ ] Ready for Section 10 (Fund Sweeping)
+
+## Learning Check
+
+- **Rust concepts:** traits, implementations, borrowing, enums, and composition
+- **Production problem:** sharing useful gateway behavior without hiding chain-specific differences
+- **Simplifications:** adapters return deterministic local values; real RPC transport, error handling, and routing policy are not implemented
+- **Exercise:** add a typed error for an unsupported operation instead of forcing every chain to implement it
 
 ## Interview Questions
 

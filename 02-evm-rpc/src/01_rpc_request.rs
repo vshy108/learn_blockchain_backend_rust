@@ -54,6 +54,11 @@ impl RpcRequest {
     }
 }
 
+fn main() {
+    let request = RpcRequest::new("eth_blockNumber", Vec::new(), 1);
+    println!("RPC request: {}", request.as_json());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -70,19 +75,10 @@ mod tests {
 
     #[test]
     fn supports_params_for_get_balance() {
-        let req = RpcRequest::new(
-            "eth_getBalance",
-            vec![json!("0x1234"), json!("latest")],
-            2,
-        );
+        let req = RpcRequest::new("eth_getBalance", vec![json!("0x1234"), json!("latest")], 2);
 
         assert_eq!(req.params.len(), 2);
         assert_eq!(req.params[0], json!("0x1234"));
         assert_eq!(req.params[1], json!("latest"));
     }
-}
-
-fn main() {
-    let request = RpcRequest::new("eth_blockNumber", Vec::new(), 1);
-    println!("RPC request: {}", request.as_json());
 }

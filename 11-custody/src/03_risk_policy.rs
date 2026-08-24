@@ -34,12 +34,21 @@ pub struct RiskPolicy {
 
 impl RiskPolicy {
     pub fn new(max_per_tx: u64, max_daily: u64, requires_approval: bool) -> Self {
-        Self { max_per_tx, max_daily, requires_approval }
+        Self {
+            max_per_tx,
+            max_daily,
+            requires_approval,
+        }
     }
 
     pub fn allows(&self, amount: u64) -> bool {
         amount <= self.max_per_tx
     }
+}
+
+fn main() {
+    let policy = RiskPolicy::new(250, 10_000, true);
+    println!("{}", policy.allows(250));
 }
 
 #[cfg(test)]
@@ -52,9 +61,4 @@ mod tests {
         assert!(policy.allows(1000));
         assert!(!policy.allows(1001));
     }
-}
-
-fn main() {
-    let policy = RiskPolicy::new(250, 10_000, true);
-    println!("{}", policy.allows(250));
 }

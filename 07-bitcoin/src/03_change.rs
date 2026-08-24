@@ -9,7 +9,16 @@ pub struct ChangeCalculation {
 
 pub fn compute_change(input_total: u64, output_total: u64) -> ChangeCalculation {
     let fee = input_total.saturating_sub(output_total);
-    ChangeCalculation { input_total, output_total, fee }
+    ChangeCalculation {
+        input_total,
+        output_total,
+        fee,
+    }
+}
+
+fn main() {
+    let change = compute_change(10_000, 8_500);
+    println!("fee={}", change.fee);
 }
 
 #[cfg(test)]
@@ -22,9 +31,4 @@ mod tests {
         assert_eq!(change.fee, 800);
         assert_eq!(change.output_total, 9_200);
     }
-}
-
-fn main() {
-    let change = compute_change(10_000, 8_500);
-    println!("fee={}", change.fee);
 }

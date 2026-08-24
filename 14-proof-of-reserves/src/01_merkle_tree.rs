@@ -36,6 +36,11 @@ impl MerkleTree {
     }
 }
 
+fn main() {
+    let tree = MerkleTree::new(vec![]);
+    println!("leaves={}", tree.leaves.len());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,9 +50,4 @@ mod tests {
         let tree = MerkleTree::new(vec![[1u8; 32], [2u8; 32]]);
         assert_eq!(tree.leaves.len(), 2);
     }
-}
-
-fn main() {
-    let tree = MerkleTree::new(vec![]);
-    println!("leaves={}", tree.leaves.len());
 }

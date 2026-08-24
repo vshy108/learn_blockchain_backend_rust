@@ -25,6 +25,10 @@ impl ExecutionStatus {
     }
 }
 
+fn main() {
+    println!("Success? {}", ExecutionStatus::Success.is_successful());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -34,8 +38,4 @@ mod tests {
         assert!(ExecutionStatus::Success.is_successful());
         assert!(!ExecutionStatus::Reverted.is_successful());
     }
-}
-
-fn main() {
-    println!("Success? {}", ExecutionStatus::Success.is_successful());
 }

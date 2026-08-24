@@ -2,7 +2,7 @@
 
 ## Goal
 
-Build a complete blockchain gateway system by learning **one file at a time**, from fundamentals through production architecture. Each lesson teaches a single blockchain concept and produces working Rust code that becomes part of the final system.
+Build educational models of blockchain gateway components by learning **one file at a time**, from fundamentals through production architecture. Each lesson teaches a single blockchain concept and produces working Rust code that illustrates part of a larger system.
 
 ## The Progression Logic
 
@@ -48,7 +48,7 @@ Production hardening
 6. `06_finality.rs` — Finalized vs non-finalized blocks
 
 ### Acceptance Criteria
-- [ ] All tests pass: `cargo test --package 01-blockchain-fundamentals`
+- [ ] All tests pass: `cargo test --package blockchain_fundamentals`
 - [ ] Can explain why "confirmed" ≠ "finalized"
 - [ ] Can describe what a chain reorg is and why indexers care
 
@@ -91,14 +91,14 @@ Production hardening
 
 ### Files
 1. `01_evm_client.rs` — Basic client struct
-2. `02_latest_block.rs` — `async fn latest_block() -> Result<u64>`
+2. `02_latest_block.rs` — Parse a latest-block result locally; async transport is a later extension
 3. `03_get_block_details.rs` — Retrieve full block information
 4. `04_account_state.rs` — Balance, nonce, code queries
 5. `05_error_handling.rs` — Structured error types
 
 ### Acceptance Criteria
 - [ ] Client abstracts RPC format from callers
-- [ ] All async calls use tokio
+- [ ] When live RPC transport is introduced, use Tokio for async calls
 - [ ] Error types distinguish node errors from local errors
 
 ---
@@ -383,7 +383,7 @@ Production hardening
 
 ## Section 15: Production Architecture
 
-**Goal**: Design a production-grade, highly available blockchain gateway.
+**Goal**: Explore the design of a highly available blockchain gateway through production-oriented educational models.
 
 ### Concepts
 - High availability
@@ -469,4 +469,4 @@ By the end, you should be able to:
 6. **Do the interview questions**. Practice articulating your knowledge.
 7. **Build the gateway incrementally**. Each section adds functionality.
 
-By Section 15, you will have built a real, production-grade blockchain gateway system and learned the mental models required for senior blockchain backend roles.
+By Section 15, you will have built educational models of blockchain gateway components and learned the mental models required for production blockchain backend systems. The examples are not production-ready infrastructure.

@@ -33,8 +33,16 @@ pub struct HsmIntegration {
 
 impl HsmIntegration {
     pub fn new(device_id: &'static str) -> Self {
-        Self { device_id, connected: true }
+        Self {
+            device_id,
+            connected: true,
+        }
     }
+}
+
+fn main() {
+    let hsm = HsmIntegration::new("hsm-02");
+    println!("device={}", hsm.device_id);
 }
 
 #[cfg(test)]
@@ -47,9 +55,4 @@ mod tests {
         assert!(hsm.connected);
         assert_eq!(hsm.device_id, "hsm-02");
     }
-}
-
-fn main() {
-    let hsm = HsmIntegration::new("hsm-02");
-    println!("device={}", hsm.device_id);
 }

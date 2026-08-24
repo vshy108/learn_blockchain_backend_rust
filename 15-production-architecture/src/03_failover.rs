@@ -29,6 +29,10 @@ pub fn failover(current: bool, fallback: bool) -> bool {
     current || fallback
 }
 
+fn main() {
+    println!("{}", failover(false, true));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,8 +42,4 @@ mod tests {
         assert!(failover(false, true));
         assert!(!failover(false, false));
     }
-}
-
-fn main() {
-    println!("{}", failover(false, true));
 }

@@ -10,6 +10,10 @@ pub fn already_processed(id: u64, seen_ids: &[u64]) -> bool {
     seen_ids.contains(&id)
 }
 
+fn main() {
+    println!("{}", already_processed(5, &[1, 2, 5]));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -20,8 +24,4 @@ mod tests {
         assert!(already_processed(9, &seen));
         assert!(!already_processed(8, &seen));
     }
-}
-
-fn main() {
-    println!("{}", already_processed(5, &[1, 2, 5]));
 }

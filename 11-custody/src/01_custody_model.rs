@@ -17,6 +17,10 @@ impl WalletTier {
     }
 }
 
+fn main() {
+    println!("hot limit={}", WalletTier::Hot.max_daily_limit());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -26,8 +30,4 @@ mod tests {
         assert_eq!(WalletTier::Hot.max_daily_limit(), 10_000);
         assert_eq!(WalletTier::Cold.max_daily_limit(), 1_000_000);
     }
-}
-
-fn main() {
-    println!("hot limit={}", WalletTier::Hot.max_daily_limit());
 }

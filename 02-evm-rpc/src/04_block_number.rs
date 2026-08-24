@@ -40,6 +40,10 @@ pub fn latest_block_number(raw: &str) -> Result<u64, String> {
     parse_u64_hex(raw)
 }
 
+fn main() {
+    println!("Latest block: {:?}", latest_block_number("0x15"));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -48,8 +52,4 @@ mod tests {
     fn decodes_latest_block_number() {
         assert_eq!(latest_block_number("0x15").unwrap(), 21);
     }
-}
-
-fn main() {
-    println!("Latest block: {:?}", latest_block_number("0x15"));
 }

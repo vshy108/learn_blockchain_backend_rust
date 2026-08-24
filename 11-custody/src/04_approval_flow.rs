@@ -32,7 +32,9 @@ pub struct ApprovalFlow {
 
 impl ApprovalFlow {
     pub fn new() -> Self {
-        Self { approvals: Vec::new() }
+        Self {
+            approvals: Vec::new(),
+        }
     }
 
     pub fn approve(&mut self, approver: &str) {
@@ -42,6 +44,18 @@ impl ApprovalFlow {
     pub fn is_approved(&self, required: usize) -> bool {
         self.approvals.len() >= required
     }
+}
+
+impl Default for ApprovalFlow {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+fn main() {
+    let mut flow = ApprovalFlow::new();
+    flow.approve("ops");
+    println!("approved={}", flow.is_approved(1));
 }
 
 #[cfg(test)]
@@ -56,10 +70,4 @@ mod tests {
         flow.approve("bob");
         assert!(flow.is_approved(2));
     }
-}
-
-fn main() {
-    let mut flow = ApprovalFlow::new();
-    flow.approve("ops");
-    println!("approved={}", flow.is_approved(1));
 }

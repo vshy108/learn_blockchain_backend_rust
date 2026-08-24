@@ -37,6 +37,11 @@ impl MerkleProof {
     }
 }
 
+fn main() {
+    let proof = MerkleProof::new(1, vec![]);
+    println!("index={}", proof.leaf_index);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -46,9 +51,4 @@ mod tests {
         let proof = MerkleProof::new(0, vec![[9u8; 32], [8u8; 32]]);
         assert_eq!(proof.path.len(), 2);
     }
-}
-
-fn main() {
-    let proof = MerkleProof::new(1, vec![]);
-    println!("index={}", proof.leaf_index);
 }

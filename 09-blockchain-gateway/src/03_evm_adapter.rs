@@ -11,6 +11,11 @@ impl EvmAdapter {
     }
 }
 
+fn main() {
+    let adapter = EvmAdapter::new(10);
+    println!("block={}", adapter.latest_block);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -20,9 +25,4 @@ mod tests {
         let adapter = EvmAdapter::new(42);
         assert_eq!(adapter.latest_block, 42);
     }
-}
-
-fn main() {
-    let adapter = EvmAdapter::new(10);
-    println!("block={}", adapter.latest_block);
 }

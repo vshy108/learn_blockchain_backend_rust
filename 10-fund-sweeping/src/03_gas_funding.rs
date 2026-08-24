@@ -7,8 +7,16 @@ pub struct GasFundingPlan {
 }
 
 pub fn plan_gas_funding(balance: u64, token_amount: u64, gas_needed: u64) -> GasFundingPlan {
-    let native_needed = if balance >= gas_needed { 0 } else { gas_needed - balance };
-    GasFundingPlan { native_needed, token_to_transfer: token_amount }
+    let native_needed = gas_needed.saturating_sub(balance);
+    GasFundingPlan {
+        native_needed,
+        token_to_transfer: token_amount,
+    }
+}
+
+fn main() {
+    let plan = plan_gas_funding(20, 80, 50);
+    println!("native_needed={}", plan.native_needed);
 }
 
 #[cfg(test)]
@@ -20,9 +28,4 @@ mod tests {
         let plan = plan_gas_funding(0, 1_000, 50);
         assert_eq!(plan.native_needed, 50);
     }
-}
-
-fn main() {
-    let plan = plan_gas_funding(20, 80, 50);
-    println!("native_needed={}", plan.native_needed);
 }

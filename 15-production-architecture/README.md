@@ -2,7 +2,9 @@
 
 ## Goal
 
-Design and implement a production-grade, highly available blockchain gateway.
+Design and implement educational models for a highly available blockchain gateway.
+
+> **Status:** Production-oriented design exercise. This code is not deployable or production-ready infrastructure.
 
 ## Why This Section
 
@@ -109,7 +111,7 @@ Node failing repeatedly?
 ## Running Tests
 
 ```bash
-cargo test --package 15-production-architecture
+cargo test --package production_architecture
 ```
 
 ## Acceptance Criteria
@@ -121,6 +123,13 @@ cargo test --package 15-production-architecture
 - [ ] Monitoring surfaces key metrics
 - [ ] Recovery documented
 - [ ] Onboarding new chain takes <1 day
+
+## Learning Check
+
+- **Rust concepts:** traits, state machines, collections, error handling, and composing small modules
+- **Production problem:** designing for node failure, coordination, observability, and safe retries
+- **Simplifications:** networking, distributed storage, locks, metrics, timing, and failover are local models rather than deployable infrastructure
+- **Exercise:** add a failure-injection test proving that the RPC pool skips an unhealthy node and tries the next endpoint
 
 ## Interview Questions
 

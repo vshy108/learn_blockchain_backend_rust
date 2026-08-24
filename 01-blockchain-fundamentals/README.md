@@ -4,6 +4,8 @@
 
 Understand what the backend is actually communicating with: blocks, transactions, confirmations, and the distinction between inclusion and finality.
 
+> **Status:** Learning example using simplified blockchain data models, not a production blockchain client.
+
 ## Why This Section
 
 Most blockchain backend engineers jump straight to "how do I call an RPC?" without understanding **what blocks and transactions fundamentally are**. This section builds that mental model.
@@ -45,7 +47,7 @@ Most blockchain backend engineers jump straight to "how do I call an RPC?" witho
 ```
 ... → [TX block] → [validators can NO LONGER reorg] ← current
 ```
-- Mathematically impossible for validators to change (slashing penalty)
+- Economically infeasible under normal protocol assumptions; violating finality carries severe slashing penalties
 - Truly permanent
 - Safe for custodial operations
 
@@ -69,13 +71,13 @@ TX status: REVERT (execution failed, but still cost gas)
 
 ```bash
 # Test this section only
-cargo test --package 01-blockchain-fundamentals
+cargo test --package blockchain_fundamentals
 
 # Test with output
-cargo test --package 01-blockchain-fundamentals -- --nocapture
+cargo test --package blockchain_fundamentals -- --nocapture
 
 # Test one file
-cargo test --package 01-blockchain-fundamentals block --nocapture
+cargo test --package blockchain_fundamentals block --nocapture
 ```
 
 ## Acceptance Criteria
@@ -88,6 +90,13 @@ After completing this section:
 - [ ] Can describe what happens during a chain reorg
 - [ ] Can distinguish transaction inclusion from execution
 - [ ] Ready for Section 02 (EVM RPC)
+
+## Learning Check
+
+- **Rust concepts:** structs, fixed-size arrays, methods, derives, and unit tests
+- **Production problem:** representing blocks and transaction state for backend decisions
+- **Simplifications:** hashing, timing, and finality are modeled for learning rather than implemented as chain-compatible protocol logic
+- **Exercise:** add a test for a block whose height is correct but whose previous hash is wrong
 
 ## Interview Questions
 

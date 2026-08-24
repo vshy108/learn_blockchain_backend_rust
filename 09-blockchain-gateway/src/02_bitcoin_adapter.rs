@@ -11,6 +11,11 @@ impl BitcoinAdapter {
     }
 }
 
+fn main() {
+    let adapter = BitcoinAdapter::new(999);
+    println!("height={}", adapter.best_height);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -20,9 +25,4 @@ mod tests {
         let adapter = BitcoinAdapter::new(1200);
         assert_eq!(adapter.best_height, 1200);
     }
-}
-
-fn main() {
-    let adapter = BitcoinAdapter::new(999);
-    println!("height={}", adapter.best_height);
 }

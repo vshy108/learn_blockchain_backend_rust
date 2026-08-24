@@ -37,6 +37,11 @@ impl LedgerState {
     }
 }
 
+fn main() {
+    let state = LedgerState::new(1, [4u8; 20]);
+    println!("balance={}", state.balance);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -47,9 +52,4 @@ mod tests {
         assert_eq!(state.balance, 999);
         assert_eq!(state.account, [5u8; 20]);
     }
-}
-
-fn main() {
-    let state = LedgerState::new(1, [4u8; 20]);
-    println!("balance={}", state.balance);
 }

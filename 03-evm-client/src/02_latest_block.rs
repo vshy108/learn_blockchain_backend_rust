@@ -22,8 +22,18 @@ impl LatestBlockResult {
         if stripped.is_empty() || !stripped.chars().all(|c| c.is_ascii_hexdigit()) {
             return Err("invalid hex block number".to_string());
         }
-        let value = u64::from_str_radix(stripped, 16).map_err(|_| "block number out of range".to_string())?;
-        Ok(LatestBlockResult { block_number: value })
+        let value = u64::from_str_radix(stripped, 16)
+            .map_err(|_| "block number out of range".to_string())?;
+        Ok(LatestBlockResult {
+            block_number: value,
+        })
+    }
+}
+
+fn main() {
+    match LatestBlockResult::from_hex("0x15") {
+        Ok(result) => println!("Latest block: {}", result.block_number),
+        Err(error) => println!("Could not parse latest block: {error}"),
     }
 }
 
@@ -36,9 +46,4 @@ mod tests {
         let value = LatestBlockResult::from_hex("0x15").unwrap();
         assert_eq!(value.block_number, 21);
     }
-}
-
-fn main() {
-    let result = LatestBlockResult::from_hex("0x15").unwrap();
-    println!("Latest block: {}", result.block_number);
 }

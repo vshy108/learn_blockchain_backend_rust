@@ -4,6 +4,8 @@
 
 Learn how to robustly process blockchain state and survive crashes through checkpointing.
 
+> **Status:** Production-oriented learning model using local state; it is not a deployable blockchain indexer.
+
 ## Why This Section
 
 Blockchain backends must continuously watch the chain for events. A crash at block 5,000,000 should not force you to restart from block 0. This section teaches the critical pattern: **checkpoint and recover**.
@@ -82,7 +84,7 @@ pub struct IndexedEvent {
 ## Running Tests
 
 ```bash
-cargo test --package 05-blockchain-indexer
+cargo test --package blockchain_indexer
 ```
 
 ## Acceptance Criteria
@@ -94,6 +96,13 @@ cargo test --package 05-blockchain-indexer
 - [ ] Handles both initial sync and live indexing
 - [ ] Tests include crash simulation
 - [ ] Ready for Section 06 (Wallet)
+
+## Learning Check
+
+- **Rust concepts:** structs, collections, borrowing, state updates, and failure-focused tests
+- **Production problem:** recovering progress and handling chain reorganizations without starting from genesis
+- **Simplifications:** persistence, node communication, and rollback storage are modeled locally
+- **Exercise:** add a test proving that reprocessing a checkpoint does not duplicate an indexed event
 
 ## Interview Questions
 

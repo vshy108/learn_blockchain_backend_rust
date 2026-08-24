@@ -33,13 +33,21 @@ pub struct SigningService {
 
 impl SigningService {
     pub fn new(signer_id: &'static str) -> Self {
-        Self { signer_id, last_signed: None }
+        Self {
+            signer_id,
+            last_signed: None,
+        }
     }
 
     pub fn sign(&mut self, tx_hash: [u8; 32]) -> [u8; 32] {
         self.last_signed = Some(tx_hash);
         tx_hash
     }
+}
+
+fn main() {
+    let mut service = SigningService::new("hsm-01");
+    println!("{:?}", service.sign([1u8; 32]));
 }
 
 #[cfg(test)]
@@ -53,9 +61,4 @@ mod tests {
         assert_eq!(service.sign(tx_hash), tx_hash);
         assert_eq!(service.last_signed, Some(tx_hash));
     }
-}
-
-fn main() {
-    let mut service = SigningService::new("hsm-01");
-    println!("{:?}", service.sign([1u8; 32]));
 }

@@ -10,8 +10,18 @@ pub struct Account {
 
 impl Account {
     pub fn new(pubkey: [u8; 32], lamports: u64, owner: [u8; 32], executable: bool) -> Self {
-        Self { pubkey, lamports, owner, executable }
+        Self {
+            pubkey,
+            lamports,
+            owner,
+            executable,
+        }
     }
+}
+
+fn main() {
+    let account = Account::new([9u8; 32], 42, [4u8; 32], false);
+    println!("lamports={}", account.lamports);
 }
 
 #[cfg(test)]
@@ -24,9 +34,4 @@ mod tests {
         assert_eq!(account.lamports, 1_000_000);
         assert_eq!(account.owner, [2u8; 32]);
     }
-}
-
-fn main() {
-    let account = Account::new([9u8; 32], 42, [4u8; 32], false);
-    println!("lamports={}", account.lamports);
 }

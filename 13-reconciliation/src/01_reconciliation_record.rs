@@ -33,8 +33,16 @@ pub struct ReconciliationRecord {
 
 impl ReconciliationRecord {
     pub fn new(block_height: u64, difference: i64) -> Self {
-        Self { block_height, difference }
+        Self {
+            block_height,
+            difference,
+        }
     }
+}
+
+fn main() {
+    let record = ReconciliationRecord::new(100, 3);
+    println!("diff={}", record.difference);
 }
 
 #[cfg(test)]
@@ -47,9 +55,4 @@ mod tests {
         assert_eq!(record.block_height, 101);
         assert_eq!(record.difference, -5);
     }
-}
-
-fn main() {
-    let record = ReconciliationRecord::new(100, 3);
-    println!("diff={}", record.difference);
 }

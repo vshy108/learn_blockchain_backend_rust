@@ -48,7 +48,7 @@
 //
 // --- IMPLEMENTATION FOLLOWS ---
 
-use sha2::{Sha256, Digest};
+use sha2::{Digest, Sha256};
 use std::fmt;
 
 /// A blockchain block with height, hash, and link to prior block.
@@ -56,19 +56,19 @@ use std::fmt;
 pub struct Block {
     /// Block height (sequential from 0). CAN change on reorg.
     pub height: u64,
-    
+
     /// Block hash (SHA256 for Bitcoin, Keccak256 for EVM). IMMUTABLE.
     pub hash: [u8; 32],
-    
+
     /// Hash of the previous block (genesis has [0u8; 32] or special case).
     pub previous_hash: [u8; 32],
-    
+
     /// Unix timestamp when block was mined.
     pub timestamp: u64,
-    
+
     /// Number of transactions in this block.
     pub transaction_count: usize,
-    
+
     /// Block reward (subsidy + fees) in smallest unit (satoshi, wei, lamport).
     pub miner_reward: u64,
 }
@@ -99,23 +99,22 @@ impl Block {
     }
 
     /// Verify that a potential next block actually links to this block.
-    /// 
+    ///
     /// Returns true if:
     ///   - next_block.height == self.height + 1
     ///   - next_block.previous_hash == self.hash
     ///
     /// This is the check that maintains the chain.
     pub fn validates_next(&self, next_block: &Block) -> bool {
-        next_block.height == self.height + 1 && 
-        next_block.previous_hash == self.hash
+        next_block.height == self.height + 1 && next_block.previous_hash == self.hash
     }
 
     /// Compute a mock block hash (SHA256 of serialized data).
-    /// 
+    ///
     /// In real blockchains:
     ///   - Bitcoin: double SHA256 of block header
     ///   - Ethereum: Keccak256 of RLP-encoded block
-    /// 
+    ///
     /// This is a simplified version for learning.
     pub fn compute_hash(&self) -> [u8; 32] {
         let data = format!(
@@ -128,7 +127,7 @@ impl Block {
         let mut hasher = Sha256::new();
         hasher.update(data.as_bytes());
         let result = hasher.finalize();
-        
+
         // Convert GenericArray to [u8; 32]
         let mut hash = [0u8; 32];
         hash.copy_from_slice(&result);
@@ -142,12 +141,28 @@ impl fmt::Display for Block {
             f,
             "Block #{} (hash: {}, prev: {}, ts: {}, txs: {}, reward: {})",
             self.height,
-            hex::encode(&self.hash[..8]),  // Show first 8 bytes for readability
+            hex::encode(&self.hash[..8]), // Show first 8 bytes for readability
             hex::encode(&self.previous_hash[..8]),
             self.timestamp,
             self.transaction_count,
             self.miner_reward
         )
+    }
+}
+
+fn main() {
+    // Example: Create and inspect blocks
+    let genesis = Block::new(0, [0u8; 32], [0u8; 32], 1692000000, 0, 0);
+    println!("Genesis: {}", genesis);
+
+    let block1 = Block::new(1, [1u8; 32], genesis.hash, 1692000012, 5, 50_000_000_000);
+    println!("Block 1: {}", block1);
+
+    // Verify chain link
+    if genesis.validates_next(&block1) {
+        println!("✓ Block 1 correctly links to genesis");
+    } else {
+        println!("✗ Block 1 does not link to genesis");
     }
 }
 
@@ -173,23 +188,16 @@ mod tests {
 
     #[test]
     fn block_validates_correct_next() {
-        let block1 = Block::new(
-            1,
-            [1u8; 32],
-            [0u8; 32],
-            1012,
-            5,
-            50_000_000_000,
-        );
+        let block1 = Block::new(1, [1u8; 32], [0u8; 32], 1012, 5, 50_000_000_000);
         let block2 = Block::new(
             2,
             [2u8; 32],
-            [1u8; 32],  // Points to block1's hash
+            [1u8; 32], // Points to block1's hash
             1024,
             3,
             50_000_000_000,
         );
-        
+
         assert!(block1.validates_next(&block2));
     }
 
@@ -197,7 +205,7 @@ mod tests {
     fn block_rejects_wrong_height() {
         let block1 = Block::new(1, [1u8; 32], [0u8; 32], 1012, 5, 50_000_000_000);
         let block_wrong = Block::new(3, [3u8; 32], [1u8; 32], 1024, 3, 50_000_000_000);
-        
+
         // height should be 2, not 3
         assert!(!block1.validates_next(&block_wrong));
     }
@@ -208,12 +216,12 @@ mod tests {
         let block_wrong = Block::new(
             2,
             [2u8; 32],
-            [99u8; 32],  // Points to wrong hash
+            [99u8; 32], // Points to wrong hash
             1024,
             3,
             50_000_000_000,
         );
-        
+
         assert!(!block1.validates_next(&block_wrong));
     }
 
@@ -222,7 +230,7 @@ mod tests {
         let block = Block::new(1, [0u8; 32], [0u8; 32], 1012, 5, 50_000_000_000);
         let hash1 = block.compute_hash();
         let hash2 = block.compute_hash();
-        
+
         assert_eq!(hash1, hash2);
     }
 
@@ -230,7 +238,7 @@ mod tests {
     fn different_blocks_have_different_hashes() {
         let block1 = Block::new(1, [0u8; 32], [0u8; 32], 1012, 5, 50_000_000_000);
         let block2 = Block::new(2, [0u8; 32], [0u8; 32], 1012, 5, 50_000_000_000);
-        
+
         assert_ne!(block1.compute_hash(), block2.compute_hash());
     }
 
@@ -238,32 +246,25 @@ mod tests {
     fn hash_changes_if_contents_change() {
         let mut block = Block::new(1, [0u8; 32], [0u8; 32], 1012, 5, 50_000_000_000);
         let hash_before = block.compute_hash();
-        
+
         block.transaction_count = 10;
         let hash_after = block.compute_hash();
-        
+
         assert_ne!(hash_before, hash_after);
     }
 
     #[test]
     fn block_display_shows_key_info() {
-        let block = Block::new(
-            100,
-            [255u8; 32],
-            [0u8; 32],
-            1692345678,
-            42,
-            50_000_000_000,
-        );
+        let block = Block::new(100, [255u8; 32], [0u8; 32], 1692345678, 42, 50_000_000_000);
         let display = format!("{}", block);
-        
+
         assert!(display.contains("Block #100"));
-        assert!(display.contains("42"));  // tx count
+        assert!(display.contains("42")); // tx count
     }
 }
 
 // --- RUST VS GO COMPARISON ---
-// 
+//
 // RUST:
 // ```rust
 // #[derive(Debug, Clone, PartialEq, Eq)]
@@ -276,7 +277,7 @@ mod tests {
 //     pub miner_reward: u64,
 // }
 // ```
-// 
+//
 // GO:
 // ```go
 // type Block struct {
@@ -288,7 +289,7 @@ mod tests {
 //     MinerReward      uint64
 // }
 // ```
-// 
+//
 // DIFFERENCES:
 // - Rust requires explicit derive macros; Go derives automatically
 // - Rust: [u8; 32] is a fixed array (stack); Go: [32]byte (also stack)
@@ -300,26 +301,3 @@ mod tests {
 // - Fixed-size arrays prevent hash length bugs (32 bytes is guaranteed)
 // - No implicit nullability (no "hash could be nil" surprises)
 // - Derive Debug + Clone + PartialEq for free (Go requires hand-coding)
-
-fn main() {
-    // Example: Create and inspect blocks
-    let genesis = Block::new(0, [0u8; 32], [0u8; 32], 1692000000, 0, 0);
-    println!("Genesis: {}", genesis);
-
-    let block1 = Block::new(
-        1,
-        [1u8; 32],
-        genesis.hash,
-        1692000012,
-        5,
-        50_000_000_000,
-    );
-    println!("Block 1: {}", block1);
-
-    // Verify chain link
-    if genesis.validates_next(&block1) {
-        println!("✓ Block 1 correctly links to genesis");
-    } else {
-        println!("✗ Block 1 does not link to genesis");
-    }
-}

@@ -19,12 +19,20 @@ pub struct ReorgRollback {
 
 impl ReorgRollback {
     pub fn new(last_safe_block: u64, to_block: u64) -> Self {
-        ReorgRollback { last_safe_block, to_block }
+        ReorgRollback {
+            last_safe_block,
+            to_block,
+        }
     }
 
     pub fn rollback_to(&self) -> u64 {
         self.last_safe_block
     }
+}
+
+fn main() {
+    let rollback = ReorgRollback::new(100, 120);
+    println!("Rollback to block {}", rollback.rollback_to());
 }
 
 #[cfg(test)]
@@ -36,9 +44,4 @@ mod tests {
         let rollback = ReorgRollback::new(100, 120);
         assert_eq!(rollback.rollback_to(), 100);
     }
-}
-
-fn main() {
-    let rollback = ReorgRollback::new(100, 120);
-    println!("Rollback to block {}", rollback.rollback_to());
 }

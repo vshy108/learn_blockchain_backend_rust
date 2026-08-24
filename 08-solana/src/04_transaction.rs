@@ -14,8 +14,16 @@ pub struct Transaction {
 
 impl Transaction {
     pub fn new(instructions: Vec<Instruction>, signatures: Vec<[u8; 64]>) -> Self {
-        Self { instructions, signatures }
+        Self {
+            instructions,
+            signatures,
+        }
     }
+}
+
+fn main() {
+    let tx = Transaction::new(vec![], vec![]);
+    println!("instructions={}", tx.instructions.len());
 }
 
 #[cfg(test)]
@@ -25,15 +33,13 @@ mod tests {
     #[test]
     fn creates_transaction() {
         let tx = Transaction::new(
-            vec![Instruction { program_id: [1u8; 32], data: vec![0x7f] }],
+            vec![Instruction {
+                program_id: [1u8; 32],
+                data: vec![0x7f],
+            }],
             vec![[2u8; 64]],
         );
         assert_eq!(tx.instructions.len(), 1);
         assert_eq!(tx.signatures.len(), 1);
     }
-}
-
-fn main() {
-    let tx = Transaction::new(vec![], vec![]);
-    println!("instructions={}", tx.instructions.len());
 }

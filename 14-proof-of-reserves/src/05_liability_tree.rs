@@ -36,6 +36,11 @@ impl LiabilityTree {
     }
 }
 
+fn main() {
+    let tree = LiabilityTree::new(5);
+    println!("total={}", tree.total);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,9 +50,4 @@ mod tests {
         let tree = LiabilityTree::new(10_000);
         assert_eq!(tree.total, 10_000);
     }
-}
-
-fn main() {
-    let tree = LiabilityTree::new(5);
-    println!("total={}", tree.total);
 }

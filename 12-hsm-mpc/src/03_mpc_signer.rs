@@ -40,6 +40,11 @@ impl MpcSigner {
     }
 }
 
+fn main() {
+    let signer = MpcSigner::new(vec!["a", "b"]);
+    println!("quorum={}", signer.quorum_ok(2));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -50,9 +55,4 @@ mod tests {
         assert!(signer.quorum_ok(2));
         assert!(!signer.quorum_ok(4));
     }
-}
-
-fn main() {
-    let signer = MpcSigner::new(vec!["a", "b"]);
-    println!("quorum={}", signer.quorum_ok(2));
 }

@@ -4,6 +4,8 @@
 
 Implement secure key management, withdrawal approval flows, and risk policies.
 
+> **Status:** Production-oriented custody model; it is not a secure asset-custody implementation.
+
 ## Why This Section
 
 Holding customer funds is the core responsibility of an exchange. This section teaches:
@@ -65,7 +67,7 @@ Cold Wallet:  Offline/very secure, rare use
 ## Running Tests
 
 ```bash
-cargo test --package 11-custody
+cargo test --package custody
 ```
 
 ## Acceptance Criteria
@@ -76,6 +78,13 @@ cargo test --package 11-custody
 - [ ] Full audit trail of all approvals
 - [ ] Wallet tier logic correct
 - [ ] Ready for Section 12 (HSM/MPC)
+
+## Learning Check
+
+- **Rust concepts:** enums, state transitions, ownership, validation, and audit-oriented data structures
+- **Production problem:** separating withdrawal requests, risk decisions, approvals, signing, and audit records
+- **Simplifications:** identities, persistence, authorization, cryptography, and concurrent requests are modeled locally
+- **Exercise:** add a test proving that a withdrawal cannot be signed before all required approvals are recorded
 
 ## Interview Questions
 

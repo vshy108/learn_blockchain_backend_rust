@@ -37,6 +37,11 @@ impl MonitoringMetric {
     }
 }
 
+fn main() {
+    let metric = MonitoringMetric::new("success_rate", 99);
+    println!("{}", metric.value);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -47,9 +52,4 @@ mod tests {
         assert_eq!(metric.name, "rpc_latency_ms");
         assert_eq!(metric.value, 42);
     }
-}
-
-fn main() {
-    let metric = MonitoringMetric::new("success_rate", 99);
-    println!("{}", metric.value);
 }

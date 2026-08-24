@@ -30,17 +30,23 @@ impl Transaction {
     }
 
     pub fn total_input(&self) -> u64 {
-        self.inputs.iter().map(|input| {
-            match input.outpoint.index {
+        self.inputs
+            .iter()
+            .map(|input| match input.outpoint.index {
                 0 => 1000,
                 _ => 0,
-            }
-        }).sum()
+            })
+            .sum()
     }
 
     pub fn total_output(&self) -> u64 {
         self.outputs.iter().map(|output| output.amount).sum()
     }
+}
+
+fn main() {
+    let tx = Transaction::new(vec![], vec![]);
+    println!("inputs={}, outputs={}", tx.inputs.len(), tx.outputs.len());
 }
 
 #[cfg(test)]
@@ -50,16 +56,20 @@ mod tests {
     #[test]
     fn creates_transaction_with_inputs_and_outputs() {
         let tx = Transaction::new(
-            vec![Input { outpoint: Outpoint { tx_id: [1u8; 32], index: 0 }, script_sig: vec![0x01] }],
-            vec![Output { amount: 900, script_pubkey: vec![0x02] }],
+            vec![Input {
+                outpoint: Outpoint {
+                    tx_id: [1u8; 32],
+                    index: 0,
+                },
+                script_sig: vec![0x01],
+            }],
+            vec![Output {
+                amount: 900,
+                script_pubkey: vec![0x02],
+            }],
         );
         assert_eq!(tx.inputs.len(), 1);
         assert_eq!(tx.outputs.len(), 1);
         assert_eq!(tx.total_output(), 900);
     }
-}
-
-fn main() {
-    let tx = Transaction::new(vec![], vec![]);
-    println!("inputs={}, outputs={}", tx.inputs.len(), tx.outputs.len());
 }

@@ -34,21 +34,37 @@ impl SignedTransaction {
     }
 }
 
+fn main() {
+    let payload = Transaction {
+        hash: [1u8; 32],
+        from: [2u8; 20],
+        to: Some([3u8; 20]),
+        value: 5,
+        nonce: 2,
+        gas_limit: 21_000,
+        gas_price: 1_000,
+    };
+    let signed = SignedTransaction::new(payload, [9u8; 64]);
+    println!("Signed tx signature len={}", signed.signature.len());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn wraps_a_signed_transaction() {
-        let payload = Transaction { hash: [1u8; 32], from: [2u8; 20], to: Some([3u8; 20]), value: 5, nonce: 2, gas_limit: 21_000, gas_price: 1_000 };
+        let payload = Transaction {
+            hash: [1u8; 32],
+            from: [2u8; 20],
+            to: Some([3u8; 20]),
+            value: 5,
+            nonce: 2,
+            gas_limit: 21_000,
+            gas_price: 1_000,
+        };
         let signed = SignedTransaction::new(payload.clone(), [9u8; 64]);
         assert_eq!(signed.payload, payload);
         assert_eq!(signed.signature, [9u8; 64]);
     }
-}
-
-fn main() {
-    let payload = Transaction { hash: [1u8; 32], from: [2u8; 20], to: Some([3u8; 20]), value: 5, nonce: 2, gas_limit: 21_000, gas_price: 1_000 };
-    let signed = SignedTransaction::new(payload, [9u8; 64]);
-    println!("Signed tx signature len={}", signed.signature.len());
 }

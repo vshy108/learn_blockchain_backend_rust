@@ -34,6 +34,11 @@ impl PrivateKey {
     }
 }
 
+fn main() {
+    let key = PrivateKey::new([1u8; 32]);
+    println!("Private key bytes: {:?}", key.bytes);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -49,9 +54,4 @@ mod tests {
         let key = PrivateKey::new([0u8; 32]);
         assert!(key.is_zero());
     }
-}
-
-fn main() {
-    let key = PrivateKey::new([1u8; 32]);
-    println!("Private key bytes: {:?}", key.bytes);
 }

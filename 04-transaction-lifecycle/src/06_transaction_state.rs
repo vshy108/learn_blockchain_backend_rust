@@ -35,12 +35,23 @@ pub struct TransactionState {
 
 impl TransactionState {
     pub fn new(state: TxState, confirmations: u64) -> Self {
-        TransactionState { state, confirmations }
+        TransactionState {
+            state,
+            confirmations,
+        }
     }
 
     pub fn is_final(&self) -> bool {
         self.state == TxState::Finalized
     }
+}
+
+fn main() {
+    let state = TransactionState::new(TxState::Confirmed, 6);
+    println!(
+        "State: {:?}, confirmations={}",
+        state.state, state.confirmations
+    );
 }
 
 #[cfg(test)]
@@ -59,9 +70,4 @@ mod tests {
         let state = TransactionState::new(TxState::Reverted, 0);
         assert!(!state.is_final());
     }
-}
-
-fn main() {
-    let state = TransactionState::new(TxState::Confirmed, 6);
-    println!("State: {:?}, confirmations={}", state.state, state.confirmations);
 }

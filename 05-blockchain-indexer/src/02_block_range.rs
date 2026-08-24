@@ -31,6 +31,11 @@ impl BlockRange {
     }
 }
 
+fn main() {
+    let range = BlockRange::new(100, 106);
+    println!("Range length: {}", range.len());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,9 +50,4 @@ mod tests {
     fn empty_range_is_detected() {
         assert!(BlockRange::new(10, 10).is_empty());
     }
-}
-
-fn main() {
-    let range = BlockRange::new(100, 106);
-    println!("Range length: {}", range.len());
 }

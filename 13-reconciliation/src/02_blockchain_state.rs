@@ -37,6 +37,11 @@ impl BlockchainState {
     }
 }
 
+fn main() {
+    let state = BlockchainState::new(5, [2u8; 32]);
+    println!("height={}", state.height);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -47,9 +52,4 @@ mod tests {
         assert_eq!(state.height, 120);
         assert_eq!(state.hash, [1u8; 32]);
     }
-}
-
-fn main() {
-    let state = BlockchainState::new(5, [2u8; 32]);
-    println!("height={}", state.height);
 }

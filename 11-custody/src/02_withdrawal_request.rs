@@ -34,8 +34,17 @@ pub struct WithdrawalRequest {
 
 impl WithdrawalRequest {
     pub fn new(user_id: u64, amount: u64, to: [u8; 20]) -> Self {
-        Self { user_id, amount, to }
+        Self {
+            user_id,
+            amount,
+            to,
+        }
     }
+}
+
+fn main() {
+    let req = WithdrawalRequest::new(3, 10, [2u8; 20]);
+    println!("{}", req.amount);
 }
 
 #[cfg(test)]
@@ -48,9 +57,4 @@ mod tests {
         assert_eq!(req.user_id, 7);
         assert_eq!(req.amount, 500);
     }
-}
-
-fn main() {
-    let req = WithdrawalRequest::new(3, 10, [2u8; 20]);
-    println!("{}", req.amount);
 }

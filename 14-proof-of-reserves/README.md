@@ -4,6 +4,8 @@
 
 Prove customer assets are backed by blockchain holdings without exposing customer data.
 
+> **Status:** Educational Merkle-tree model. This section does not by itself prove total assets, liabilities, ownership, solvency, or privacy in a real exchange.
+
 ## Why This Section
 
 After FTX collapse, exchanges must prove reserves. This section teaches the mathematical approach: **Merkle trees and cryptographic proofs**.
@@ -21,6 +23,8 @@ Solution: Merkle tree commitment.
 ```
 
 ## The Approach
+
+This simplified approach demonstrates inclusion proofs. Publishing or sharing a customer's leaf can still reveal information, and a complete proof-of-reserves system also needs an independently verified asset snapshot, a complete liability commitment, anti-double-counting controls, and an audit process.
 
 ```
 Customer 1: $100k
@@ -83,7 +87,7 @@ pub struct MerkleProof {
 ## Running Tests
 
 ```bash
-cargo test --package 14-proof-of-reserves
+cargo test --package proof_of_reserves
 ```
 
 ## Acceptance Criteria
@@ -94,6 +98,13 @@ cargo test --package 14-proof-of-reserves
 - [ ] Root hash published and audited
 - [ ] Proof report is comprehensive
 - [ ] Ready for Section 15 (Production)
+
+## Learning Check
+
+- **Rust concepts:** vectors, fixed-size byte arrays, hashing, tree traversal, and proof verification
+- **Production problem:** committing to a large liability set while allowing individual inclusion checks
+- **Simplifications:** hash construction, privacy protection, asset verification, liability completeness, and audit independence are simplified
+- **Exercise:** add a test proving that changing a leaf invalidates its existing Merkle proof
 
 ## Interview Questions
 

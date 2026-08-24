@@ -1,6 +1,6 @@
 # learn_blockchain_backend
 
-A structured, Rust-first learning journey through blockchain backend engineering. This repository builds a complete blockchain gateway from first principles, teaching both fundamentals and production-grade systems.
+A structured, Rust-first learning journey through blockchain backend engineering. This repository builds educational models of blockchain backend components from first principles and uses production systems as design context.
 
 ## Repo Metadata
 
@@ -61,10 +61,9 @@ learn_blockchain_backend/
 Each section contains:
 
 - `src/` — Implementation files (one concept per file)
-- `tests/` — Unit and integration tests
-- `examples/` — Runnable demonstrations
+- Inline `#[cfg(test)]` modules — Focused unit tests next to the lesson code
 - `README.md` — Section objectives and progression
-- `CONTEXT.md` — Blockchain concept deep-dive for this section
+- Section documentation where applicable — Blockchain concept deep-dives
 
 ## Sections
 
@@ -91,7 +90,7 @@ Each section contains:
 cargo test
 
 # Test a specific section
-cargo test --package 01-blockchain-fundamentals
+cargo test --package blockchain_fundamentals
 
 # Test with output
 cargo test -- --nocapture
@@ -129,13 +128,13 @@ Tests target **public behavior**, not implementation details. Rust vs Go compari
 
 ## Tech Stack
 
-- **Rust**: 1.70+ (standard library only for core lessons, then tokio/reqwest for networking)
+- **Rust**: 1.70+ (standard library only for core lessons; networking dependencies are added in the RPC lessons when those lessons are implemented)
 - **Testing**: `#[cfg(test)]` built-in, `assert_eq!`, manual fixtures
 - **Serialization**: `serde_json` (minimal; we often parse JSON manually to understand format)
-- **HTTP**: `reqwest` (only in 02-evm-rpc onward)
+- **HTTP**: planned for the live RPC lessons; the current examples model requests locally
 - **Hashing**: `sha2` (for proof-of-reserves section)
 
-No heavy frameworks; each lesson is self-contained and runnable with `cargo test`.
+No heavy frameworks; each lesson is self-contained and runnable with `cargo test`. The code is educational or production-oriented depending on the section, not production-ready infrastructure.
 
 ## Requirements
 
@@ -147,7 +146,7 @@ No heavy frameworks; each lesson is self-contained and runnable with `cargo test
 
 1. **Start with 01-blockchain-fundamentals**. Read the README in that section.
 2. **Follow the comments-first pattern**. Code is documented *before* it runs.
-3. **Run tests after each file**. Verify understanding with `cargo test --package 01-...`.
+3. **Run tests after each file**. Verify understanding with the package name from that section's `Cargo.toml`.
 4. **Compare with Go**. Each Rust implementation includes an equivalent Go snippet.
 5. **Do the exercises**. Some files include intentional gaps for you to fill.
 6. **Reference the CHEATSHEET** when you forget blockchain concepts.

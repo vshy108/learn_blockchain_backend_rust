@@ -33,8 +33,16 @@ pub struct KeyRotation {
 
 impl KeyRotation {
     pub fn new(current: &'static str, next: &'static str) -> Self {
-        Self { current_key: current, next_key: next }
+        Self {
+            current_key: current,
+            next_key: next,
+        }
     }
+}
+
+fn main() {
+    let rotation = KeyRotation::new("old", "new");
+    println!("old={}, new={}", rotation.current_key, rotation.next_key);
 }
 
 #[cfg(test)]
@@ -47,9 +55,4 @@ mod tests {
         assert_eq!(rotation.current_key, "key-v1");
         assert_eq!(rotation.next_key, "key-v2");
     }
-}
-
-fn main() {
-    let rotation = KeyRotation::new("old", "new");
-    println!("old={}, new={}", rotation.current_key, rotation.next_key);
 }

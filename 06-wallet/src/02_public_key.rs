@@ -25,6 +25,11 @@ impl PublicKey {
     }
 }
 
+fn main() {
+    let key = PublicKey::from_private_key(&[7u8; 32]);
+    println!("Public key length: {}", key.bytes.len());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -34,9 +39,4 @@ mod tests {
         let key = PublicKey::from_private_key(&[7u8; 32]);
         assert_eq!(key.bytes[32], 0x01);
     }
-}
-
-fn main() {
-    let key = PublicKey::from_private_key(&[7u8; 32]);
-    println!("Public key length: {}", key.bytes.len());
 }

@@ -15,6 +15,10 @@ pub fn route_chain(kind: ChainKind) -> &'static str {
     }
 }
 
+fn main() {
+    println!("{}", route_chain(ChainKind::Evm));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -24,8 +28,4 @@ mod tests {
         assert_eq!(route_chain(ChainKind::Bitcoin), "bitcoin");
         assert_eq!(route_chain(ChainKind::Solana), "solana");
     }
-}
-
-fn main() {
-    println!("{}", route_chain(ChainKind::Evm));
 }

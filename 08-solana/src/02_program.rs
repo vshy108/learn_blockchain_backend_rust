@@ -11,7 +11,15 @@ pub fn derive_program_address(seed: &[u8]) -> ProgramAddress {
     for (i, byte) in seed.iter().enumerate() {
         hash[i % 32] = hash[i % 32].wrapping_add(*byte);
     }
-    ProgramAddress { address: hash, seed: seed.to_vec() }
+    ProgramAddress {
+        address: hash,
+        seed: seed.to_vec(),
+    }
+}
+
+fn main() {
+    let pda = derive_program_address(b"demo");
+    println!("pda={:?}", pda.address);
 }
 
 #[cfg(test)]
@@ -24,9 +32,4 @@ mod tests {
         assert_eq!(address.seed, b"vault".to_vec());
         assert_eq!(address.address.len(), 32);
     }
-}
-
-fn main() {
-    let pda = derive_program_address(b"demo");
-    println!("pda={:?}", pda.address);
 }

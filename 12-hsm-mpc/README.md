@@ -4,6 +4,8 @@
 
 Learn hardware security modules and multi-party computation for distributed signing.
 
+> **Status:** Production-oriented architecture exercise. The code simulates HSM/MPC boundaries and is not a production signing system.
+
 ## Why This Section
 
 The most dangerous thing in a blockchain backend is the private key. This section teaches architectures where **no single machine holds the key**.
@@ -60,10 +62,12 @@ No party ever has the full key
 
 We do **not** implement production MPC cryptography ourselves. We learn the architecture and how a backend integrates with it.
 
+The examples must not be used to generate or protect real keys. A real system requires audited cryptographic libraries, authenticated device communication, key ceremonies, access controls, secure key storage, operational monitoring, and independent security review.
+
 ## Running Tests
 
 ```bash
-cargo test --package 12-hsm-mpc
+cargo test --package hsm_mpc
 ```
 
 ## Acceptance Criteria
@@ -74,6 +78,13 @@ cargo test --package 12-hsm-mpc
 - [ ] Graceful handling of signer unavailability
 - [ ] Rotation procedures documented
 - [ ] Ready for Section 13 (Reconciliation)
+
+## Learning Check
+
+- **Rust concepts:** traits, interfaces, ownership boundaries, error handling, and state coordination
+- **Production problem:** separating signing authority from application logic and handling signer availability
+- **Simplifications:** HSM and MPC behavior is simulated; no real key material, device protocol, threshold cryptography, or secure ceremony is implemented
+- **Exercise:** add a test proving that signing fails when the required quorum of signers is unavailable
 
 ## Interview Questions
 

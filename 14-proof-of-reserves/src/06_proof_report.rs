@@ -33,8 +33,16 @@ pub struct ProofReport {
 
 impl ProofReport {
     pub fn new(root_hash: [u8; 32], included: bool) -> Self {
-        Self { root_hash, included }
+        Self {
+            root_hash,
+            included,
+        }
     }
+}
+
+fn main() {
+    let report = ProofReport::new([8u8; 32], true);
+    println!("included={}", report.included);
 }
 
 #[cfg(test)]
@@ -47,9 +55,4 @@ mod tests {
         assert_eq!(report.root_hash, [4u8; 32]);
         assert!(report.included);
     }
-}
-
-fn main() {
-    let report = ProofReport::new([8u8; 32], true);
-    println!("included={}", report.included);
 }

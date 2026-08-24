@@ -7,7 +7,15 @@ pub struct BroadcastResult {
 }
 
 pub fn broadcast_tx(tx_hash: [u8; 32], network_ok: bool) -> BroadcastResult {
-    BroadcastResult { accepted: network_ok, tx_hash }
+    BroadcastResult {
+        accepted: network_ok,
+        tx_hash,
+    }
+}
+
+fn main() {
+    let res = broadcast_tx([5u8; 32], true);
+    println!("accepted={}", res.accepted);
 }
 
 #[cfg(test)]
@@ -20,9 +28,4 @@ mod tests {
         assert!(result.accepted);
         assert_eq!(result.tx_hash, [7u8; 32]);
     }
-}
-
-fn main() {
-    let res = broadcast_tx([5u8; 32], true);
-    println!("accepted={}", res.accepted);
 }

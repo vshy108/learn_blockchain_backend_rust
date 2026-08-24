@@ -42,6 +42,11 @@ impl CodeQuery {
     }
 }
 
+fn main() {
+    let query = CodeQuery::new("0x000000000000000000000000000000000000dEaD", "latest");
+    println!("Address: {} @ {}", query.address, query.block_tag);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -52,9 +57,4 @@ mod tests {
         assert!(query.is_empty_code("0x"));
         assert!(!query.is_empty_code("0x60006000"));
     }
-}
-
-fn main() {
-    let query = CodeQuery::new("0x000000000000000000000000000000000000dEaD", "latest");
-    println!("Address: {} @ {}", query.address, query.block_tag);
 }

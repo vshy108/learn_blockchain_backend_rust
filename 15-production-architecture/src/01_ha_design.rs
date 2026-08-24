@@ -36,6 +36,11 @@ impl HighAvailabilityDesign {
     }
 }
 
+fn main() {
+    let design = HighAvailabilityDesign::new(2);
+    println!("nodes={}", design.nodes);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,9 +50,4 @@ mod tests {
         let design = HighAvailabilityDesign::new(3);
         assert_eq!(design.nodes, 3);
     }
-}
-
-fn main() {
-    let design = HighAvailabilityDesign::new(2);
-    println!("nodes={}", design.nodes);
 }

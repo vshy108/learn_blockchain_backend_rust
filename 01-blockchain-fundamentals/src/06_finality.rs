@@ -39,15 +39,24 @@ impl FinalityState {
     }
 
     pub fn is_finalized(&self) -> bool {
-        self.finalized_height.is_some_and(|height| height >= self.block_height)
+        self.finalized_height
+            .is_some_and(|height| height >= self.block_height)
     }
 
     pub fn finality_gap(&self) -> Option<u64> {
         match self.finalized_height {
-            Some(finalized) if finalized <= self.block_height => Some(self.block_height - finalized),
+            Some(finalized) if finalized <= self.block_height => {
+                Some(self.block_height - finalized)
+            }
             _ => None,
         }
     }
+}
+
+fn main() {
+    let state = FinalityState::new(200, Some(200));
+    println!("Finalized? {}", state.is_finalized());
+    println!("Gap: {:?}", state.finality_gap());
 }
 
 // --- TESTS ---
@@ -73,10 +82,4 @@ mod tests {
         let state = FinalityState::new(200, Some(197));
         assert_eq!(state.finality_gap(), Some(3));
     }
-}
-
-fn main() {
-    let state = FinalityState::new(200, Some(200));
-    println!("Finalized? {}", state.is_finalized());
-    println!("Gap: {:?}", state.finality_gap());
 }

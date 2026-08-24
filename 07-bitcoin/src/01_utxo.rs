@@ -1,4 +1,14 @@
 // FILE: src/01_utxo.rs
+//
+// DESIGN DECISION
+// A UTXO is modeled as an outpoint plus an amount and locking script. The outpoint
+// identifies the exact transaction output being spent, so a balance is derived by
+// collecting spendable UTXOs rather than stored in one account field.
+//
+// RUST CONCEPTS
+// - Structs group related blockchain data into a named type.
+// - A fixed-size byte array represents a transaction ID with a known length.
+// - A slice (`&[u8]`) borrows script data without taking ownership.
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Outpoint {
@@ -27,6 +37,11 @@ impl UTXO {
     }
 }
 
+fn main() {
+    let utxo = UTXO::new([1u8; 32], 1, 3_000_000, vec![0x51]);
+    println!("UTXO amount: {} sat", utxo.amount);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -43,9 +58,4 @@ mod tests {
         let utxo = UTXO::new([1u8; 32], 2, 10_000, vec![0xaa, 0xbb]);
         assert!(utxo.is_spendable(&[0xaa, 0xbb]));
     }
-}
-
-fn main() {
-    let utxo = UTXO::new([1u8; 32], 1, 3_000_000, vec![0x51]);
-    println!("UTXO amount: {} sat", utxo.amount);
 }

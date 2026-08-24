@@ -17,6 +17,10 @@ impl CommitmentLevel {
     }
 }
 
+fn main() {
+    println!("{}", CommitmentLevel::Confirmed.as_str());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -26,8 +30,4 @@ mod tests {
         assert_eq!(CommitmentLevel::Processed.as_str(), "processed");
         assert_eq!(CommitmentLevel::Finalized.as_str(), "finalized");
     }
-}
-
-fn main() {
-    println!("{}", CommitmentLevel::Confirmed.as_str());
 }

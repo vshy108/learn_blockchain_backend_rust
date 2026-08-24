@@ -46,6 +46,11 @@ impl HexNumber {
     }
 }
 
+fn main() {
+    println!("{}", HexNumber::format_u64(255));
+    println!("{:?}", HexNumber::parse_u64("0x10"));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -65,9 +70,4 @@ mod tests {
     fn formats_u64_to_hex() {
         assert_eq!(HexNumber::format_u64(255), "0xff");
     }
-}
-
-fn main() {
-    println!("{}", HexNumber::format_u64(255));
-    println!("{:?}", HexNumber::parse_u64("0x10"));
 }

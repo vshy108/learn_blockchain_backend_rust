@@ -19,10 +19,10 @@ pub struct Signature {
 impl Signature {
     pub fn sign(msg: &[u8], private_key: &[u8; 32]) -> Self {
         let mut out = [0u8; 64];
-        let mut idx = 0;
-        for b in msg {
-            out[idx % 64] = out[idx % 64].wrapping_add(private_key[idx % 32]).wrapping_add(*b);
-            idx += 1;
+        for (idx, b) in msg.iter().enumerate() {
+            out[idx % 64] = out[idx % 64]
+                .wrapping_add(private_key[idx % 32])
+                .wrapping_add(*b);
         }
         Signature { bytes: out }
     }
@@ -30,6 +30,13 @@ impl Signature {
     pub fn verify(&self, msg: &[u8], private_key: &[u8; 32]) -> bool {
         Self::sign(msg, private_key) == *self
     }
+}
+
+fn main() {
+    let msg = b"hello";
+    let private_key = [1u8; 32];
+    let sig = Signature::sign(msg, &private_key);
+    println!("Verifies? {}", sig.verify(msg, &private_key));
 }
 
 #[cfg(test)]
@@ -43,11 +50,4 @@ mod tests {
         let sig = Signature::sign(msg, &private_key);
         assert!(sig.verify(msg, &private_key));
     }
-}
-
-fn main() {
-    let msg = b"hello";
-    let private_key = [1u8; 32];
-    let sig = Signature::sign(msg, &private_key);
-    println!("Verifies? {}", sig.verify(msg, &private_key));
 }

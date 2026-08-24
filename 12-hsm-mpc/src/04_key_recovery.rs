@@ -33,8 +33,16 @@ pub struct KeyRecoveryState {
 
 impl KeyRecoveryState {
     pub fn new(recovery_mode: bool, backup_available: bool) -> Self {
-        Self { recovery_mode, backup_available }
+        Self {
+            recovery_mode,
+            backup_available,
+        }
     }
+}
+
+fn main() {
+    let state = KeyRecoveryState::new(false, true);
+    println!("recovery={}", state.recovery_mode);
 }
 
 #[cfg(test)]
@@ -47,9 +55,4 @@ mod tests {
         assert!(state.recovery_mode);
         assert!(state.backup_available);
     }
-}
-
-fn main() {
-    let state = KeyRecoveryState::new(false, true);
-    println!("recovery={}", state.recovery_mode);
 }

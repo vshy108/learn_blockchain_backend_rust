@@ -4,6 +4,8 @@
 
 Learn cryptographic key management, address derivation, and transaction signing.
 
+> **Status:** Learning model. The examples demonstrate concepts and are not a secure wallet implementation.
+
 ## Why This Section
 
 Before you can build a blockchain backend, you need to understand keys and signatures. This section teaches key generation, address derivation, and the critical rule: **never log private keys**.
@@ -39,6 +41,8 @@ Address (20 bytes for EVM)
 
 ## Key Security Rules
 
+These rules describe production concerns; the current examples use deterministic test data and simplified cryptographic behavior.
+
 1. **Never print private keys** (even in tests with `dbg!()`)
 2. **Never serialize private keys** to JSON/logs
 3. **Never compare private keys** with `==` (timing attack risk)
@@ -48,7 +52,7 @@ Address (20 bytes for EVM)
 ## Running Tests
 
 ```bash
-cargo test --package 06-wallet
+cargo test --package wallet
 ```
 
 ## Acceptance Criteria
@@ -60,6 +64,13 @@ cargo test --package 06-wallet
 - [ ] All crypto uses standard Rust libraries
 - [ ] Tests use fake/test keys only
 - [ ] Ready for Section 07 (Bitcoin)
+
+## Learning Check
+
+- **Rust concepts:** fixed-size arrays, `Option`, ownership, borrowing, and error-aware APIs
+- **Production problem:** separating key material, public identity, signing, and verification responsibilities
+- **Simplifications:** test keys and simplified cryptographic behavior are used; no secure key storage or audited signing implementation is provided
+- **Exercise:** add a test proving that an invalid signature is rejected without exposing private-key data
 
 ## Interview Questions
 

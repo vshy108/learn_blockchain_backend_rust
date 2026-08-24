@@ -12,6 +12,11 @@ impl SweepTx {
     }
 }
 
+fn main() {
+    let tx = SweepTx::new([9u8; 20], 10);
+    println!("value={}", tx.value);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -22,9 +27,4 @@ mod tests {
         assert_eq!(tx.value, 250);
         assert_eq!(tx.to.len(), 20);
     }
-}
-
-fn main() {
-    let tx = SweepTx::new([9u8; 20], 10);
-    println!("value={}", tx.value);
 }

@@ -29,6 +29,10 @@ pub fn has_quorum(approvals: usize, threshold: usize) -> bool {
     approvals >= threshold
 }
 
+fn main() {
+    println!("{}", has_quorum(2, 2));
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,8 +42,4 @@ mod tests {
         assert!(has_quorum(3, 2));
         assert!(!has_quorum(1, 2));
     }
-}
-
-fn main() {
-    println!("{}", has_quorum(2, 2));
 }

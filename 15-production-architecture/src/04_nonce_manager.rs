@@ -42,6 +42,11 @@ impl NonceManager {
     }
 }
 
+fn main() {
+    let mut manager = NonceManager::new(1);
+    println!("{}", manager.reserve());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -52,9 +57,4 @@ mod tests {
         assert_eq!(manager.reserve(), 7);
         assert_eq!(manager.reserve(), 8);
     }
-}
-
-fn main() {
-    let mut manager = NonceManager::new(1);
-    println!("{}", manager.reserve());
 }

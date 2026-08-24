@@ -7,12 +7,26 @@ pub struct SweepTracker {
 
 impl SweepTracker {
     pub fn new() -> Self {
-        Self { attempts: Vec::new() }
+        Self {
+            attempts: Vec::new(),
+        }
     }
 
     pub fn record(&mut self, id: u64) {
         self.attempts.push(id);
     }
+}
+
+impl Default for SweepTracker {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+fn main() {
+    let mut tracker = SweepTracker::new();
+    tracker.record(1);
+    println!("attempts={}", tracker.attempts.len());
 }
 
 #[cfg(test)]
@@ -26,10 +40,4 @@ mod tests {
         tracker.record(20);
         assert_eq!(tracker.attempts, vec![10, 20]);
     }
-}
-
-fn main() {
-    let mut tracker = SweepTracker::new();
-    tracker.record(1);
-    println!("attempts={}", tracker.attempts.len());
 }

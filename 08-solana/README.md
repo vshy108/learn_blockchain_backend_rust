@@ -4,6 +4,8 @@
 
 Learn Solana's distinct model: accounts + programs + instructions. Your third mental model.
 
+> **Status:** Learning model of Solana accounts and transactions; it is not a Solana program or client implementation.
+
 ## Why This Section
 
 Bitcoin = UTXO. EVM = accounts. Solana = accounts + programs + instructions. Understanding all three makes you a true multi-chain backend engineer. Solana's model is particularly important for building gateways because it's fundamentally parallel.
@@ -64,7 +66,7 @@ All instructions in a TX **must succeed or the entire TX fails** (atomic).
 ## Running Tests
 
 ```bash
-cargo test --package 08-solana
+cargo test --package solana
 ```
 
 ## Acceptance Criteria
@@ -75,6 +77,13 @@ cargo test --package 08-solana
 - [ ] Know difference between SPL token mint and account
 - [ ] Understand commitment levels and finality
 - [ ] Ready for Section 09 (Gateway)
+
+## Learning Check
+
+- **Rust concepts:** structs, enums, `Vec`, fixed-size arrays, and modeling invariants
+- **Production problem:** representing account ownership, instruction composition, atomic transactions, and commitment levels
+- **Simplifications:** account execution, PDA derivation, signatures, fees, and network interaction are modeled locally
+- **Exercise:** add a test proving that a transaction containing a failing instruction is rejected atomically
 
 ## Interview Questions
 

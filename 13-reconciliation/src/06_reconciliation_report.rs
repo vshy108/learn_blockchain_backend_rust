@@ -33,8 +33,16 @@ pub struct ReconciliationReport {
 
 impl ReconciliationReport {
     pub fn new(difference: i64, resolved: bool) -> Self {
-        Self { difference, resolved }
+        Self {
+            difference,
+            resolved,
+        }
     }
+}
+
+fn main() {
+    let report = ReconciliationReport::new(1, true);
+    println!("resolved={}", report.resolved);
 }
 
 #[cfg(test)]
@@ -47,9 +55,4 @@ mod tests {
         assert_eq!(report.difference, 7);
         assert!(report.resolved);
     }
-}
-
-fn main() {
-    let report = ReconciliationReport::new(1, true);
-    println!("resolved={}", report.resolved);
 }

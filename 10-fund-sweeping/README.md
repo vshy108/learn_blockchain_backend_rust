@@ -4,6 +4,8 @@
 
 Build an exchange-style deposit consolidation system. Detect deposits and move them to a treasury wallet.
 
+> **Status:** Production-oriented learning model; it is not a deployable fund-sweeping service.
+
 ## Why This Section
 
 This is the first "real-world problem" section. You'll learn how exchanges actually work: deposits arrive in many wallets, and you need to sweep them to a central treasury efficiently.
@@ -66,7 +68,7 @@ If sweep TX fails:
 ## Running Tests
 
 ```bash
-cargo test --package 10-fund-sweeping
+cargo test --package fund_sweeping
 ```
 
 ## Acceptance Criteria
@@ -77,6 +79,13 @@ cargo test --package 10-fund-sweeping
 - [ ] No duplicate sweeps on restart
 - [ ] Track all sweep attempts
 - [ ] Ready for Section 11 (Custody)
+
+## Learning Check
+
+- **Rust concepts:** structs, enums, state tracking, borrowing, and idempotent operations
+- **Production problem:** consolidating deposits while accounting for gas, thresholds, retries, and duplicate requests
+- **Simplifications:** balances, transactions, persistence, and network failures are modeled locally
+- **Exercise:** add a test proving that retrying the same sweep request does not create a second sweep
 
 ## Interview Questions
 
